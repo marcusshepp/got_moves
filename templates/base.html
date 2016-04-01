@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Got Moves?</title>
+    </head>
+    <body>
+        {% block body %}
+        <form class="" action="" method="POST">
+            {% csrf_token %}
+            <div class="">
+                <label for="name">Name: </label>
+                <input type="text" name="name" value="" />
+            </div>
+            <div class="">
+                <label for="youtube_link">YouTube Link: </label>
+                <input type="text" name="youtube_link" value="" />
+            </div>
+            <input type="submit" value="Submit" />
+        </form>
+        {% for move in moves %}
+            <h4>{{ move.name }}</h4><a href="/delete/{{move.id}}">Delete</a>
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/{{ move.youtube_link }}" frameborder="0" allowfullscreen></iframe>
+        {% endfor %}
+        {% endblock body %}
+    </body>
+</html>
