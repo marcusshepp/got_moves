@@ -70,5 +70,4 @@ target/
 
 db*
 
-dollars/settings.py
 .opt/
