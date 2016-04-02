@@ -9,7 +9,12 @@ from .models import (
 class MoveForm(forms.ModelForm):
     class Meta:
         model = Move
-        fields = ["name", "youtube_link", "user"]
+        fields = [
+            "name", 
+            "youtube_link", 
+            "user",
+            "tutorial",
+            "private"]
         
         
 class CommentForm(forms.ModelForm):

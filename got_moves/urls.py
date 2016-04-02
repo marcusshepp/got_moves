@@ -15,9 +15,11 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
+from django.contrib.auth.views import logout_then_login
 
 from main.views import (
-    foo,
+    feed,
+    profile,
     delete,
 )
 
@@ -27,11 +29,13 @@ from accounts.views import (
 )
 
 urlpatterns = [
-    url(r'^admin/', admin.site.urls),
-    url(r'^$', foo, name="main"),
+    url(r'^foo/', admin.site.urls),
+    url(r'^$', feed, name="feed"),
+    url(r'^profile/(?:(?P<username>\w+)/)$', profile, name="profile"),
     url(r'^delete/(?P<id>[0-9]+)/$', delete, name="delete"),
     
     # account 
     url(r'^login/$', Login.as_view(), name="login"),
+    url(r'^logout/$', logout_then_login, name="logout"),
     url(r'^register/$', Registeration.as_view(), name="register"),
 ]

@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block body %}
+feed
+<div>
+    Hello, <a href="{% url 'profile' username=user.username %}">{{ user.username }}</a>. 
+    <a href="/logout/">logout</a>
+</div>
+
+{% for move in moves %}
+    <div class="">{{move.name}}</div>
+    {% if move.tutorial %}
+    <div class="">Tutorial</div>
+    {% endif %}
+    <iframe width="215" height="215" src="https://www.youtube.com/embed/{{ move.youtube_link }}" frameborder="0" allowfullscreen></iframe>
+{% endfor %}
+{% endblock body %}

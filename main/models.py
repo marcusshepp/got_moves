@@ -13,7 +13,9 @@ class HasAUser(models.Model):
 
 class Move(HasAUser):
     name = models.CharField(max_length=50, blank=False, null=False)
-    youtube_link = models.CharField(max_length=1000, blank=True)
+    tutorial = models.BooleanField(default=False)
+    private = models.BooleanField(default=False)
+    youtube_link = models.CharField(max_length=1000, blank=True, unique=True)
     rating = models.IntegerField(null=True, blank=True)
     comments = models.ManyToManyField("Comment")
     def __unicode__(self):

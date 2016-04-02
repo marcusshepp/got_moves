@@ -7,3 +7,4 @@ ls main/migrations
 python manage.py makemigrations
 echo "**makemigrations**"
 ls main/migrations
+bash ~/projects/got_moves/as/django/reset_db.sh

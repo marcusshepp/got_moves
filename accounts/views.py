@@ -27,7 +27,7 @@ class Login(View):
                 if user.is_active:
                     login(request, user)
                     user.is_authenticated = True
-                    return redirect(reverse_lazy("main"))
+                    return redirect(reverse_lazy("feed"))
             else: data["invalid"] = True
         else: data["invalid"] = True
         data["form"] = LoginForm
@@ -46,7 +46,7 @@ class Registeration(View):
         context = dict()
         if form.is_valid:
             form.save()
-            return redirect(reverse_lazy("main"))
+            return redirect(reverse_lazy("feed"))
         else:
             context["invalid"] = True
             return render(request, "accounts/login.html", context)

@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% block body %}
+<a href="{% url 'feed' %}">Back to feed.</a>
+<div>
+    Hello, <a href="{% url 'profile' username=user.username %}">{{ user.username }}</a>. 
+    {% if owner_viewing %}
+    Welcome to your account.
+    {% else %}
+    Welcome to {{user_who_owns_account}}'s profile.
+    {% endif %}
+</div>
+<a href="/logout/">logout</a>
+<div class="">Create a New Move</div>
+{% if owner_viewing %}
+    <form class="" action="" method="POST">
+        {% csrf_token %}
+        <div class="">
+            <label for="name">Name: </label>
+            <input type="text" name="name" value="" />
+        </div>
+        <div class="">
+            <label for="youtube_link">YouTube Link: </label>
+            <input type="text" name="youtube_link" value="" />
+        </div>
+        <div class="">
+            <label for="tutorial">This is a tutorial: </label>
+            <input type="checkbox" name="tutorial" value="1" />
+        </div>
+        <div class="">
+            <label for="private">Should we make this private: </label>
+            <input type="checkbox" name="private" value="1" />
+        </div>
+        <input type="submit" value="Submit" />
+    </form>
+{% else %}
+{% endif %}
+{% if moves.count %}
+    {% for move in moves %}
+        <div>{{ move.name }}</div>
+        <div class=""><a href="/delete/{{move.id}}">Delete</a></div>
+        {% if move.tutorial %}
+        <div class="">Tutorial</div>
+        {% endif %}
+        <div class="">
+        {% if move.private %}
+        private
+        {% else %}
+        public
+        {% endif %}
+        </div>
+        <iframe width="215" height="215" src="https://www.youtube.com/embed/{{ move.youtube_link }}" frameborder="0" allowfullscreen></iframe>
+        <br>
+    {% endfor %}
+{% else %}
+<div class="">You have no Moves!</div>
+{% endif %}
+{% endblock body %}
