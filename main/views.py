@@ -10,6 +10,8 @@ from .models import (
     Comment,
 )
 
+# foobarpop
+
 def feed(request):
     if request.user.is_anonymous():
         return redirect("/login/")
