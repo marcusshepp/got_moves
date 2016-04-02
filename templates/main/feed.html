@@ -2,7 +2,7 @@
 {% block body %}
 feed
 <div>
-    Hello, <a href="{% url 'profile' username=user.username %}">{{ user.username }}</a>. 
+    Hello, <a href="{% url 'cardist' user.username %}">{{ user.username }}</a>. 
     <a href="/logout/">logout</a>
 </div>
 

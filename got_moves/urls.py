@@ -19,7 +19,7 @@ from django.contrib.auth.views import logout_then_login
 
 from main.views import (
     feed,
-    profile,
+    cardist,
     delete,
 )
 
@@ -31,10 +31,10 @@ from accounts.views import (
 urlpatterns = [
     url(r'^foo/', admin.site.urls),
     url(r'^$', feed, name="feed"),
-    url(r'^profile/(?:(?P<username>\w+)/)$', profile, name="profile"),
+    url(r'^cardist/(?:(?P<username>\w+)/)$', cardist, name="cardist"),
     url(r'^delete/(?P<id>[0-9]+)/$', delete, name="delete"),
-    
-    # account 
+
+    # account
     url(r'^login/$', Login.as_view(), name="login"),
     url(r'^logout/$', logout_then_login, name="logout"),
     url(r'^register/$', Registeration.as_view(), name="register"),

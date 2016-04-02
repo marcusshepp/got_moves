@@ -2,7 +2,7 @@
 {% block body %}
 <a href="{% url 'feed' %}">Back to feed.</a>
 <div>
-    Hello, <a href="{% url 'profile' username=user.username %}">{{ user.username }}</a>. 
+    Hello, <a href="{% url 'cardist' username=user.username %}">{{ user.username }}</a>.
     {% if owner_viewing %}
     Welcome to your account.
     {% else %}

@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
 
 from .forms import (
     MoveForm,
@@ -11,19 +12,18 @@ from .models import (
 )
 
 # foobarpop
+LOGIN_REDIRECT = '/login/'
 
+@login_required(login_url=LOGIN_REDIRECT)
 def feed(request):
-    if request.user.is_anonymous():
-        return redirect("/login/")
     data = dict()
     data["moves"] = Move.objects.filter(private=False)
     for move in data["moves"]:
         print move.tutorial
     return render(request, "main/feed.html", data)
-
-def profile(request, *args, **kwargs):
-    if request.user.is_anonymous():
-        return redirect("/login/")
+    
+@login_required(login_url=LOGIN_REDIRECT)
+def cardist(request, *args, **kwargs):
     data = dict()
     username = kwargs.get("username", None)
     user_who_owns_account = User.objects.get(username=username)
@@ -49,8 +49,8 @@ def profile(request, *args, **kwargs):
         data["moves"] = Move.objects.filter(user=user_who_owns_account.id)
     else: data["moves"] = Move.objects.filter(user=user_who_owns_account.id, private=False)
     print data["moves"]
-    return render(request, "main/account.html", data)
-    
+    return render(request, "main/cardist.html", data)
+
 def delete(request, *args, **kwargs):
     data = dict()
     move_id = kwargs["id"]
