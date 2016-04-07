@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block body %}
+<form class="create_profile_form" action="" method="POST">
+    <label for="first_name">First Name:</label>
+    <input type="text" name="first_name">
+    <label for="last_name">Last Name:</label>
+    <input type="text" name="last_name">
+    <label for="email">Email:</label>
+    <input type="text" name="email">
+    <label for="description">Description:</label>
+    <input type="text" name="description">
+    <label for="inspiration">Inspiration:</label>
+    <input type="text" name="inspiration">
+    <label for="url">URL:</label>
+    <input type="text" name="url">
+    <input type="submit" value="Submit">
+</form>
+{% endblock body %}

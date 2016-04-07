@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.http import require_http_methods
 
 from .forms import (
     MoveForm,
@@ -64,6 +65,7 @@ def page_data_cardist(request, kwargs):
     return data
 
 @login_required(login_url=LOGIN_REDIRECT)
+@require_http_methods(["GET"])
 def feed(request):
     data = dict()
     if there_are_moves():
@@ -74,6 +76,7 @@ def feed(request):
 
 
 @login_required(login_url=LOGIN_REDIRECT)
+@require_http_methods(["GET"])
 def cardist_render_template(request, *args, **kwargs):
     """
     Cardist's profile
@@ -94,6 +97,7 @@ def cardist_render_template(request, *args, **kwargs):
     return render(request, "main/cardist.html", data)
 
 @login_required(login_url=LOGIN_REDIRECT)
+@require_http_methods(["POST"])
 def post_create_move_renders_profile(request, *args, **kwargs):
     """
     Creates a new `Move`.
@@ -128,3 +132,9 @@ def delete(request, *args, **kwargs):
     Move.objects.get(id=move_id).delete()
     data["moves"] = Move.objects.all()
     return redirect("/")
+    
+@login_required(login_url=LOGIN_REDIRECT)
+@require_http_methods(["GET"])
+def create_profile_render_template(request):
+    return render(request, "main/create_profile.html")
+

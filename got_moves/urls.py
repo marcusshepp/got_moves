@@ -1,18 +1,3 @@
-"""got_moves URL Configuration
-
-The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/1.9/topics/http/urls/
-Examples:
-Function views
-    1. Add an import:  from my_app import views
-    2. Add a URL to urlpatterns:  url(r'^$', views.home, name='home')
-Class-based views
-    1. Add an import:  from other_app.views import Home
-    2. Add a URL to urlpatterns:  url(r'^$', Home.as_view(), name='home')
-Including another URLconf
-    1. Import the include() function: from django.conf.urls import url, include
-    2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
-"""
 from django.conf.urls import url
 from django.contrib import admin
 from django.contrib.auth.views import logout_then_login
@@ -21,6 +6,7 @@ from main.views import (
     feed,
     cardist_render_template,
     delete,
+    create_profile_render_template,
 )
 
 from accounts.views import (
@@ -31,6 +17,7 @@ from accounts.views import (
 urlpatterns = [
     url(r'^foo/', admin.site.urls),
     url(r'^$', feed, name="feed"),
+    url(r'^create_profile/$', create_profile_render_template, name="create_profile_template"),
     url(r'^cardist/(?:(?P<username>\w+)/)$', cardist_render_template, name="cardist"),
     url(r'^delete/(?P<id>[0-9]+)/$', delete, name="delete"),
 
