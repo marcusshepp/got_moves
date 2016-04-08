@@ -37,7 +37,7 @@ class Video(HasAUser, SaveDateCreated):
         null=True, blank=True)
     comments = models.ManyToManyField("Comment")
     description = models.TextField(null=True, blank=True)
-    placeholder_image = models.FileField(upload_to='uploads/')
+    placeholder_image = models.FileField(upload_to='uploads/', null=True, blank=True)
     credits = models.CharField(max_length=400)
 
 
@@ -49,7 +49,7 @@ class Move(Video):
     """
     tutorial = models.BooleanField(default=False)
     for_sale = models.BooleanField(default=False)
-    price = models.DecimalField(max_digits=5, decimal_places=2)
+    price = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
     original = models.BooleanField(default=False)
     category = models.ForeignKey("Category")
     estimated_creation_date = models.DateField(blank=True, null=True)

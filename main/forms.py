@@ -45,7 +45,9 @@ class ProfileForm(forms.ModelForm):
 
 
 class CategoryForm(forms.ModelForm):
-            model = Category
-            fields = (
-                "name",
-            )
+    class Meta:
+        model = Category
+        fields = (
+            "name",
+            "user"
+        )

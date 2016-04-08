@@ -18,6 +18,9 @@ from main.forms import (
 from moves.models import (
     Classic,
 )
+from moves.forms import (
+    ClassicForm,
+)
 
 
 class Command(BaseCommand):
@@ -33,10 +36,11 @@ class Command(BaseCommand):
             print "Creating..."
             third_arg = options.get("third_arg", None)
             if third_arg:
-                    User.objects.get_or_create(
+                    user = User.objects.get_or_create(
                         username="qwe",
                         password="qwe"
                     )
+                    print user
                     lorem = "http://loripsum.net/api/10/short/headers"
                     request = requests.get(lorem)
                     text = request.text.split("\n")
@@ -45,9 +49,9 @@ class Command(BaseCommand):
                     LORS = list_of_random_strings
                     # create categories
                     category_names = LORS(paragraph_tags, num)
-                    categories = create_categories(category_names)
-                    # create items
-                    items = create_moves({
+                    create_categories(category_names, user[0])
+                    # create moves
+                    create_moves({
                                 "name": LORS(paragraph_tags, num),
                                 "youtube_link": LORS(paragraph_tags, num),
                                 "user": LORS(paragraph_tags, num),
@@ -55,16 +59,9 @@ class Command(BaseCommand):
                                 "placeholder_image": LORS(paragraph_tags, num),
                                 "credits": LORS(paragraph_tags, num),
                                 "estimated_creation_date": LORS(paragraph_tags, num),
-                                "category": [catagory.id for catagory in categories],
+                                "category": [catagory.id for catagory in Category.objects.all()],
+                                "user": user,
                                 "num":num})
-                    # create purchases
-                    purchases = [
-                        Purchase.objects.get_or_create(
-                            item_purchased=random.choice(items)[0],
-                            amount_payed=random.randrange(0, 100)) for _ in xrange(random.randrange(10, 25))]
-                    print "{} Items have been created.".format(len(items))
-                    print "{} Purchases have been created.".format(len(purchases))
-                    print "{} Catagories have been created.".format(len(categories))
         elif arg == "export":
              print "Exporting..."
              """
@@ -110,24 +107,27 @@ class Command(BaseCommand):
 
 
 def create_moves(kwargs):
-    print kwargs.items()
-    # items = list()
-    # for i in range(num):
-    #     data = dict()
-    #     item_that_might_already_be_created = Item.objects.filter(name=names[i])
-    #     if item_that_might_already_be_created.exists() and not str(names[i]).contains("/>"):
-    #         break
-    #     else:
-    #         for
-    #         data["name"] = names[i]
-    #         data["where_from"] = companies_came_from[i]
-    #         data["price"] = prices[i]
-    #         catagory = Catagory.objects.get(id=catagory_ids[i])
-    #         data["catagory"] = catagory
-    #         item = Item.objects.get_or_create(**data)
-    #         items.append(item)
-    # return items
-
+    for i in range(kwargs["num"]):
+        data = dict()
+        item_that_might_already_be_created = Classic.objects.filter(name=kwargs["name"][i])
+        if item_that_might_already_be_created.exists() and not str(kwargs["name"][i]).contains("/>"):
+            break
+        else:
+            data["name"] = kwargs["name"][i]
+            data["youtube_link"] = kwargs["youtube_link"][i]
+            data["user"] = kwargs["user"][0].id
+            data["description"] = kwargs["description"][i]
+            data["credits"] = kwargs["credits"][i]
+            data["estimated_creation_date"] = date.today()
+            data["category"] = Category.objects.get(id=1).id
+            the_file = open("uploads/300.jpeg", "r")
+            data['placeholder_image'] = the_file
+            form = ClassicForm(data)
+            print form
+            if form.is_valid():
+                print "valid"
+                form.save()
+                
 def list_of_random_strings(text, num):
     """
     Generates string input for CharField's.
@@ -143,10 +143,14 @@ def list_of_random_strings(text, num):
         names.append(name)
     return names
 
-def create_categories(category_names):
+def create_categories(category_names, user):
     for name in category_names:
         d = dict()
-        d["name"] = name
+        d["name"] = name[:25]
+        d["user"] = user.id
+        print d
         form = CategoryForm(d)
+        print form
         if form.is_valid():
+            print "valid"
             form.save()

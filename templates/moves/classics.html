@@ -31,4 +31,13 @@
     </div>
     <input type="submit" value="Submit">
 </form>
+<div class="">
+    {% for classic in classics %}
+    <p>
+        <div class="">{{ classic.name }}</div>
+        <div class="">{{ classic.description }}</div>
+        <div class="">{{ classic.credits }}</div>
+    </p>
+    {% endfor %}
+</div>
 {% endblock body %}
