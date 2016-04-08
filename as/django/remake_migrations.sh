@@ -1,10 +1,9 @@
-echo "remaking migrations for main.."
+echo "remaking migrations for $1.."
 echo "**before**"
-ls main/migrations
-rm -rf main/migrations/0001*
+ls $1/migrations
 echo "**removing**"
-ls main/migrations
-python manage.py makemigrations
+rm -rf $1/migrations/0001*
+ls $1/migrations
 echo "**makemigrations**"
-ls main/migrations
-bash ~/projects/got_moves/as/django/reset_db.sh
+python manage.py makemigrations $1
+ls $1/migrations

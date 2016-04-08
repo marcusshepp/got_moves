@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block body %}
+<div class="">
+    <div class="">
+        <form class="" action="{% url 'create_category' %}" method="POST">
+            {% csrf_token %}
+            <div class="">
+                <label for="name"></label>
+                <input class="" type="text" name="name" placeholder="Name">
+            </div>
+            <input type="submit" value="Submit">
+        </form>
+    </div>
+    <div class="">
+        {% for category in categories %}
+        <p>{{category.name}}</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock body %}

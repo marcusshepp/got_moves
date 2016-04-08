@@ -28,25 +28,31 @@ class Video(HasAUser, SaveDateCreated):
     """
     class Meta:
         abstract, ordering = True, ["-id"]
-    name = models.CharField(max_length=50, blank=False, null=False)
+    name = models.CharField(
+        max_length=50, blank=False, null=False)
     private = models.BooleanField(default=False)
-    youtube_link = models.CharField(max_length=1000, blank=True, unique=True)
-    rating = models.IntegerField(null=True, blank=True)
+    youtube_link = models.CharField(
+        max_length=1000, blank=True, unique=True)
+    rating = models.IntegerField(
+        null=True, blank=True)
     comments = models.ManyToManyField("Comment")
     description = models.TextField(null=True, blank=True)
     placeholder_image = models.FileField(upload_to='uploads/')
     credits = models.CharField(max_length=400)
-    
+
 
 class Move(Video):
     """
     Video of a single Cardistry Move.
+    Moves should be able to have a sellable tutorial.
+    Performance videos should be seperate from moves.
     """
     tutorial = models.BooleanField(default=False)
     for_sale = models.BooleanField(default=False)
     price = models.DecimalField(max_digits=5, decimal_places=2)
     original = models.BooleanField(default=False)
     category = models.ForeignKey("Category")
+    estimated_creation_date = models.DateField(blank=True, null=True)
     def __unicode__(self):
         return "{}".format(self.name)
 
@@ -56,7 +62,7 @@ class Performance(Video):
     Cardistry Performance Video.
     """
     solo = models.BooleanField(default=True)
-    
+
 
 CATEGORY_NAMES = (
     "Fan",
@@ -67,7 +73,7 @@ CATEGORY_NAMES = (
     "Spring",
     "Display",
 )
-class Category(SaveDateCreated):
+class Category(HasAUser, SaveDateCreated):
     """
     Type of move.
     """
@@ -134,4 +140,5 @@ class Profile(HasAUser, SaveDateCreated):
     email = models.CharField(max_length=100)
     inspiration = models.TextField()
     url = models.CharField(max_length=500)
-    
+    likes = models.IntegerField(
+        null=True, blank=True)

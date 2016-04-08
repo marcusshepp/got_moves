@@ -1,0 +1,80 @@
+export VIRTUALENVWRAPPER_PYTHON=/usr/local/bin/python
+export VIRTUALENVWRAPPER_VIRTUALENV=/usr/local/bin/virtualenv
+source /usr/local/bin/virtualenvwrapper.sh
+
+alias ls='ls -la'
+
+alias prof='vim ~/.bash_profile'
+alias xprof='source ~/.bash_profile'
+alias home='clear && cd ~'
+
+# one letters
+alias c='clear'
+alias f='open -a Finder ./'
+
+# notebook
+alias nb="workon notebook && ipython notebook"
+
+# git
+alias s='git status'
+alias gpom='git push origin master'
+alias plmaster='git pull origin master'
+alias psmaster='git push origin master'
+
+# restart
+alias cbash='source ~/.bash_profile'
+alias cbashrc='source ~/.bashrc'
+
+# django
+alias m='python manage.py'
+alias bootserver='echo "https://40.130.148.7:8000" && python manage.py runserver 0.0.0.0:8000'
+alias rs='./manage.py runserver'
+alias delmi='rm -rf *.pyc'
+
+alias ld='ls -FGlAhp'
+alias lss='ls -la *'
+alias ll='ls -h'
+alias lk='ls -1'
+
+alias f='open -a Finder ./'
+
+
+## functions
+
+mkmanagementcommand(){
+    mkdir $1/management;
+    touch $1/__init__.py;
+    mkdir $1/management/commands;
+    touch $1/management/commands/__init__.py;
+    touch $1/management/commands/$2.py;
+}
+add(){
+    git add .;
+    git status;
+    echo "http://www.emoji-cheat-sheet.com/";
+}
+work(){
+    cd ~/projects/$1/;
+    workon $1;
+    clear;
+}
+mkdotfile(){
+    DATE=`date +%Y-%m-%d`
+    cp ~/.$1 $1-$DATE;
+}
+add_ci(){
+    git add --all;
+    git commit;
+}
+# django
+remkmigrations(){
+    echo "remaking migrations for $1.."
+    echo "**before**"
+    ls $1/migrations
+    echo "**removing**"
+    rm -rf $1/migrations/0001*
+    ls $1/migrations
+    echo "**makemigrations**"
+    python manage.py makemigrations $1
+    ls $1/migrations
+}

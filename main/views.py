@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_http_methods
 
+from got_moves.settings import LOGIN_REDIRECT_URL as LRU
 from .forms import (
     MoveForm,
     CommentForm,
@@ -12,8 +13,6 @@ from .models import (
     Comment,
 )
 
-# foobarpop
-LOGIN_REDIRECT = '/login/'
 
 def dict_dot_get(dictionary, key):
     return dictionary.get(key, None)
@@ -64,7 +63,7 @@ def page_data_cardist(request, kwargs):
     data["moves"] = moves_for(request.user)
     return data
 
-@login_required(login_url=LOGIN_REDIRECT)
+@login_required(login_url=LRU)
 @require_http_methods(["GET"])
 def feed(request):
     data = dict()
@@ -75,7 +74,7 @@ def feed(request):
     return render(request, "main/feed.html", data)
 
 
-@login_required(login_url=LOGIN_REDIRECT)
+@login_required(login_url=LRU)
 @require_http_methods(["GET"])
 def cardist_render_template(request, *args, **kwargs):
     """
@@ -96,7 +95,7 @@ def cardist_render_template(request, *args, **kwargs):
         data["no_username"] = True
     return render(request, "main/cardist.html", data)
 
-@login_required(login_url=LOGIN_REDIRECT)
+@login_required(login_url=LRU)
 @require_http_methods(["POST"])
 def post_create_move_renders_profile(request, *args, **kwargs):
     """
@@ -108,7 +107,6 @@ def post_create_move_renders_profile(request, *args, **kwargs):
     data = dict()
     request_dot_get_username = dict_dot_get(request, "username")
     if request_dot_get_username:
-        # foo bar
         if username_exists(request_dot_get_username):
             move_form_data = dict()
             move_form_data["name"] = dict_dot_get(request.POST, "name")
@@ -132,9 +130,8 @@ def delete(request, *args, **kwargs):
     Move.objects.get(id=move_id).delete()
     data["moves"] = Move.objects.all()
     return redirect("/")
-    
-@login_required(login_url=LOGIN_REDIRECT)
+
+@login_required(login_url=LRU)
 @require_http_methods(["GET"])
 def create_profile_render_template(request):
     return render(request, "main/create_profile.html")
-
