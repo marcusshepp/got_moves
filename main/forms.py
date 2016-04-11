@@ -4,9 +4,10 @@ from .models import (
     Move,
     Comment,
     Performance,
-    Category,
+    UserSubmittedCategory,
     Comment,
     Profile,
+    DefaultCategory,
 )
 
 
@@ -45,7 +46,19 @@ class ProfileForm(forms.ModelForm):
 
 
 class CategoryForm(forms.ModelForm):
-            model = Category
-            fields = (
-                "name",
-            )
+    class Meta:
+        model = UserSubmittedCategory
+        fields = (
+            "name",
+            "user",
+        )
+
+
+class DefaultCategoryForm(forms.ModelForm):
+    class Meta:
+        model = DefaultCategory
+        fields = (
+            "name",
+            "one_handed",
+            "number_of_packets",
+        )

@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block body %}
+<form class="" action="" method="POST">
+    <div class="">
+        <label for="name"></label>
+        <input class="search_text_input" type="text" name="search" placeholder="Search for Card Flourishes.">
+    </div>
+    <input type="submit" value="Submit">
+</form>
+{% for classic in classics %}
+<div class="">
+    <div class="">{{ classic.name }}</div>
+    <div class=""><a href="{% url 'delete_classic' id=classic.id %}">delete</a></div>
+    <iframe width="215" height="215" src="https://www.youtube.com/embed/{{ classic.youtube_link }}" frameborder="0" allowfullscreen></iframe>
+</div>
+{% endfor %}
+<script type="text/javascript">
+</script>
+{% endblock body %}

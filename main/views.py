@@ -35,8 +35,8 @@ def has_moves(user):
     return Move.objects.filter(
         user_id=user.id).count() > 0
 
-def all_private_moves():
-    # Returns all private moves
+def all_public_moves():
+    # Returns all not private moves
     return Move.objects.filter(private=False)
 
 def moves_for(user):
@@ -68,7 +68,7 @@ def page_data_cardist(request, kwargs):
 def feed(request):
     data = dict()
     if there_are_moves():
-        data["moves"] = all_private_moves()
+        data["moves"] = all_public_moves()
     else:
         data["no_moves"] = True
     return render(request, "main/feed.html", data)

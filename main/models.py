@@ -37,8 +37,8 @@ class Video(HasAUser, SaveDateCreated):
         null=True, blank=True)
     comments = models.ManyToManyField("Comment")
     description = models.TextField(null=True, blank=True)
-    placeholder_image = models.FileField(upload_to='uploads/')
-    credits = models.CharField(max_length=400)
+    placeholder_image = models.FileField(upload_to='uploads/placeholders/')
+    credits = models.CharField(max_length=400, null=True, blank=True)
 
 
 class Move(Video):
@@ -51,7 +51,7 @@ class Move(Video):
     for_sale = models.BooleanField(default=False)
     price = models.DecimalField(max_digits=5, decimal_places=2)
     original = models.BooleanField(default=False)
-    category = models.ForeignKey("Category")
+    category = models.ForeignKey("DefaultCategory")
     estimated_creation_date = models.DateField(blank=True, null=True)
     def __unicode__(self):
         return "{}".format(self.name)
@@ -64,7 +64,7 @@ class Performance(Video):
     solo = models.BooleanField(default=True)
 
 
-CATEGORY_NAMES = (
+DEFAULT_CATEGORY_NAMES = (
     "Fan",
     "Cut",
     "Spread",
@@ -73,7 +73,16 @@ CATEGORY_NAMES = (
     "Spring",
     "Display",
 )
-class Category(HasAUser, SaveDateCreated):
+class DefaultCategory(SaveDateCreated):
+    """
+    Type of move.
+    """
+    name = models.CharField(max_length=50)
+    one_handed = models.BooleanField(default=False)
+    number_of_packets = models.PositiveIntegerField(null=True, blank=True)
+
+
+class UserSubmittedCategory(HasAUser, SaveDateCreated):
     """
     Type of move.
     """

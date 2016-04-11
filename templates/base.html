@@ -5,6 +5,13 @@
         <title>Got Moves?</title>
     </head>
     <body>
+        {% block nav %}
+        <div class="">
+            <a href="{% url 'classic_form' %}">Add Classic</a>
+            <a href="{% url 'search_moves' %}">Search Classics</a>
+            <a href="{% url 'feed' %}">Feed</a>
+        </div>
+        {% endblock nav %}
         {% block body %}
         {% endblock body %}
     </body>

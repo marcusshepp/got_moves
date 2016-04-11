@@ -1,0 +1,97 @@
+{% extends 'base.html' %}
+{% block body %}
+<form class="" action="{% url 'post_classic_move' %}" method="POST"\
+    onsubmit="return classic_form_submit()" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="">
+        <label for="name">Name: </label>
+        <span class="classic_name_error_span"></span>
+        <input class="classic_name_text_input" type="text" name="name" \
+            placeholder="Name">
+    </div>
+    <div class="">
+        <label for="youtube_link">YouTube Link: </label>
+        <input class="youtube_link_text_input" type="text" name="youtube_link" \
+            placeholder="Copy/Paste a YouTube link">
+    </div>
+    <div class="">
+        <label for="description">Description: </label>
+        <input class="" type="text" name="description" \
+            placeholder="Short sentence describing the Move.">
+    </div>
+    <div class="">
+        <label for="placeholder_image">Placeholder Image: </label>
+        <input id="id_placeholder_image" name="placeholder_image" type="file" />
+    </div>
+    <div class="">
+        <label for="credits">Credits: </label>
+        <input class="" type="text" name="credits" \
+            placeholder="Who inspired this move?">
+    </div>
+    <div class="">
+        <label for="estimated_creation_date">Estimated Creation Date: </label>
+        <input class="" type="date" name="estimated_creation_date" \
+            placeholder="estimated_creation_date">
+    </div>
+    <div class="">
+        <label for="category">Category: </label>
+        <select class="" name="" onchange="choose_number_of_hands()">
+            <option value="two_handed">Two Handed</option>
+            <option value="one_handed">One Handed</option>
+        </select>
+        <select class="categories_select" name="category_name">
+            {% for category_name in category_names %}
+            <option value="{{ category_name }}">{{ category_name }}</option>
+            {% endfor %}
+        </select>
+        <input class="number_of_hands_hidden" type="hidden" \
+            name="one_handed" value="">
+    </div>
+    <input type="submit" value="Submit">
+</form>
+<script type="text/javascript">
+function classic_form_submit(){
+    youtube_link_video_id();
+    choose_number_of_hands();
+    return check_required_fields();
+}
+function youtube_link_video_id(){
+    var input_text_element = document.getElementsByClassName(
+        "youtube_link_text_input")[0];
+    var input_value = input_text_element.value;
+    var input_value_index_of_watch = input_value.indexOf("watch?v=");
+    if (input_value_index_of_watch > -1){
+        var index = input_value_index_of_watch + 8;
+        var video_id = input_value.substring(index, input_value.indexOf("&"));
+        input_text_element.value = video_id;
+    }
+}
+var one_handed = false;
+function choose_number_of_hands(){
+    var two_handed_hidden_element = document.getElementsByClassName(
+        "number_of_hands_hidden")[0];
+    if (one_handed == true){
+        one_handed = false;
+        two_handed_hidden_element.value = "0";
+    } else {
+        one_handed = true;
+        two_handed_hidden_element.value = "1";
+    }
+}
+function check_required_fields(){
+    var form_is_valid = true;
+    var classic_name_text_input_element = document.getElementsByClassName(
+        "classic_name_text_input")[0];
+    var classic_name_text_input_value = classic_name_text_input_element.value;
+    var classic_name_error_div = document.getElementsByClassName(
+        "classic_name_error_span")[0];
+    console.log(classic_name_text_input_value);
+    if(classic_name_text_input_value.length < 4){
+        console.log("Error");
+        classic_name_error_div.innerHTML = "This needs to be > 4.";
+        form_is_valid = false;
+    }
+    return form_is_valid;
+}
+</script>
+{% endblock body %}
