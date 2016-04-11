@@ -9,7 +9,7 @@ class HasAUser(models.Model):
     Abstract class used to populate childern with a `user` field
     """
     class Meta:
-        abstract, ordering = True, ["-id"]
+        abstract, ordering = True, ("-id",)
     user = models.ForeignKey(User)
 
 
@@ -18,7 +18,7 @@ class SaveDateCreated(models.Model):
     Abstract class used to populate childern with a `date_created` field
     """
     class Meta:
-        abstract, ordering = True, ["-id"]
+        abstract, ordering = True, ("-id",)
     date_created = models.DateTimeField(auto_now_add=True)
 
 
@@ -27,7 +27,7 @@ class Video(HasAUser, SaveDateCreated):
     Parent Class of `Move` and `Performance`.
     """
     class Meta:
-        abstract, ordering = True, ["-id"]
+        abstract, ordering = True, ("-id",)
     name = models.CharField(
         max_length=50, blank=False, null=False)
     private = models.BooleanField(default=False)
@@ -49,7 +49,7 @@ class Move(Video):
     """
     tutorial = models.BooleanField(default=False)
     for_sale = models.BooleanField(default=False)
-    price = models.DecimalField(max_digits=5, decimal_places=2)
+    price = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
     original = models.BooleanField(default=False)
     category = models.ForeignKey("DefaultCategory")
     estimated_creation_date = models.DateField(blank=True, null=True)
@@ -86,6 +86,8 @@ class UserSubmittedCategory(HasAUser, SaveDateCreated):
     """
     Type of move.
     """
+    class Meta:
+        ordering = ("-date_created",)
     name = models.CharField(max_length=50)
     one_handed = models.BooleanField(default=False)
     number_of_packets = models.PositiveIntegerField(null=True, blank=True)
@@ -95,6 +97,8 @@ class Comment(HasAUser, SaveDateCreated):
     """
     Commnet on a Video, can comment on a comment.
     """
+    class Meta:
+        ordering = ("-date_created",)
     text = models.TextField()
     likes = models.IntegerField(null=True, blank=True)
     comments = models.ManyToManyField("self")
@@ -142,6 +146,8 @@ class Profile(HasAUser, SaveDateCreated):
         - number of comment upvotes
         - number of comments on users videos
     """
+    class Meta:
+        ordering = ("-first_name",)
     rank = models.CharField(max_length=50)
     description = models.TextField()
     first_name = models.CharField(max_length=100)

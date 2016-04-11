@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% block body %}
+<form class="" action="" method="POST">
+    <div class="">
+        <label for="name"></label>
+        <input class="" type="text" name="name" placeholder="Name">
+    </div>
+    <div class="">
+        <label for="youtube_link"></label>
+        <input class="" type="text" name="youtube_link" placeholder="youtube_link">
+    </div>
+    <div class="">
+        <label for="description"></label>
+        <input class="" type="text" name="description" placeholder="description">
+    </div>
+    <div class="">
+        <label for="placeholder_image"></label>
+        <input class="" type="text" name="placeholder_image" placeholder="placeholder_image">
+    </div>
+    <div class="">
+        <label for="credits"></label>
+        <input class="" type="text" name="credits" placeholder="credits">
+    </div>
+    <div class="">
+        <label for="estimated_creation_date"></label>
+        <input class="" type="text" name="estimated_creation_date" placeholder="estimated_creation_date">
+    </div>
+    <div class="">
+        <label for="category"></label>
+        <input class="" type="text" name="category" placeholder="category">
+    </div>
+    <input type="submit" value="Submit">
+</form>
+<div class="">
+    {% for classic in classics %}
+    <p>
+        <div class="">{{ classic.name }}</div>
+        <div class="">{{ classic.description }}</div>
+        <div class="">{{ classic.credits }}</div>
+    </p>
+    {% endfor %}
+</div>
+{% endblock body %}
