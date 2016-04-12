@@ -54,7 +54,7 @@ class Migration(migrations.Migration):
                 ('youtube_link', models.CharField(blank=True, max_length=1000, unique=True)),
                 ('rating', models.IntegerField(blank=True, null=True)),
                 ('description', models.TextField(blank=True, null=True)),
-                ('placeholder_image', models.FileField(upload_to='uploads/placeholders/')),
+                ('placeholder_image', models.FileField(upload_to='uploads/placeholders/', blank=True)),
                 ('credits', models.CharField(max_length=400, blank=True, null=True)),
                 ('tutorial', models.BooleanField(default=False)),
                 ('for_sale', models.BooleanField(default=False)),
