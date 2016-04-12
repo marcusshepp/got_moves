@@ -60,9 +60,14 @@ function youtube_link_video_id(){
         "youtube_link_text_input")[0];
     var input_value = input_text_element.value;
     var input_value_index_of_watch = input_value.indexOf("watch?v=");
-    if (input_value_index_of_watch > -1){
+    if (input_value_index_of_watch != -1){
         var index = input_value_index_of_watch + 8;
-        var video_id = input_value.substring(index, input_value.indexOf("&"));
+        var index_of_empersand = input_value.indexOf("&");
+        if(index_of_empersand != -1){
+            var video_id = input_value.substring(index, index_of_empersand);
+        } else {
+            var video_id = input_value.substring(index);
+        }
         input_text_element.value = video_id;
     }
 }

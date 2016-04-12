@@ -61,3 +61,4 @@ class DefaultCategoryForm(forms.ModelForm):
             "name",
             "one_handed",
             "number_of_packets",
+        )
