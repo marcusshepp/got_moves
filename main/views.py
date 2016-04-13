@@ -1,9 +1,13 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
+from django.core.urlresolvers import reverse
 from django.views.decorators.http import require_http_methods
 
 from got_moves.settings import LOGIN_REDIRECT_URL as LRU
+from moves.views import (
+    set_default_catgory_names,
+)
 from .forms import (
     MoveForm,
     CommentForm,
@@ -11,6 +15,7 @@ from .forms import (
 from .models import (
     Move,
     Comment,
+    DefaultCategory,
 )
 
 
@@ -45,7 +50,9 @@ def moves_for(user):
 
 def create_object(ModelForm, data):
     form = ModelForm(data)
+    print form
     if form.is_valid():
+        print "valid"
         form.save()
         val = True
     else: val = False
@@ -61,6 +68,7 @@ def page_data_cardist(request, kwargs):
     data["owner_viewing"] = request.user.username == request_dot_get_username
     data["move_form"] = MoveForm
     data["moves"] = moves_for(request.user)
+    data["category_names"] = set_default_catgory_names()
     return data
 
 @login_required(login_url=LRU)
@@ -104,25 +112,24 @@ def post_create_move_renders_profile(request, *args, **kwargs):
     NOTE:
         should try to restrict request method to `POST`.
     """
-    data = dict()
-    request_dot_get_username = dict_dot_get(request, "username")
-    if request_dot_get_username:
-        if username_exists(request_dot_get_username):
-            move_form_data = dict()
-            move_form_data["name"] = dict_dot_get(request.POST, "name")
-            move_form_data["youtube_link"] = dict_dot_get(request.POST, "youtube_link")
-            tutorial = dict_dot_get(request.POST, "tutorial")
-            if tutorial: move_form_data["tutorial"] = True
-            else: move_form_data["tutorial"] = False
-            private = dict_dot_get(request.POST, "private")
-            if private: move_form_data["private"] = True
-            else: move_form_data["private"] = False
-            move_form_data["user"] = request.user.id
-            create_move(move_form_data)
-    else:
-        # no username
-        data["no_username"] = True
-    return render(request, "main/cardist.html", data)
+    move_form_data = dict()
+    move_form_data["name"] = dict_dot_get(request.POST, "name")
+    move_form_data["youtube_link"] = dict_dot_get(request.POST, "youtube_link")
+    tutorial = dict_dot_get(request.POST, "tutorial")
+    if tutorial: move_form_data["tutorial"] = True
+    else: move_form_data["tutorial"] = False
+    private = dict_dot_get(request.POST, "private")
+    if private: move_form_data["private"] = True
+    else: move_form_data["private"] = False
+    move_form_data["user"] = request.user.id
+    category_name = dict_dot_get(request.POST, "category_name")
+    one_handed = request.POST.copy().pop("one_handed", None) == "1"
+    category = DefaultCategory.objects.filter(
+        name=category_name, one_handed=one_handed)
+    if category:
+        move_form_data["category"] = category[0].id
+    create_move(move_form_data)
+    return redirect(reverse("cardist", args=[request.user.username]))
 
 def delete(request, *args, **kwargs):
     data = dict()

@@ -14,5 +14,55 @@
         {% endblock nav %}
         {% block body %}
         {% endblock body %}
+        <script type="text/javascript">
+        function classic_form_submit(){
+            youtube_link_video_id();
+            choose_number_of_hands();
+            return check_required_fields();
+        }
+        function youtube_link_video_id(){
+            var input_text_element = document.getElementsByClassName(
+                "youtube_link_text_input")[0];
+            var input_value = input_text_element.value;
+            var input_value_index_of_watch = input_value.indexOf("watch?v=");
+            if (input_value_index_of_watch != -1){
+                var index = input_value_index_of_watch + 8;
+                var index_of_empersand = input_value.indexOf("&");
+                if(index_of_empersand != -1){
+                    var video_id = input_value.substring(index, index_of_empersand);
+                } else {
+                    var video_id = input_value.substring(index);
+                }
+                input_text_element.value = video_id;
+            }
+        }
+        var one_handed = false;
+        function choose_number_of_hands(){
+            var two_handed_hidden_element = document.getElementsByClassName(
+                "number_of_hands_hidden")[0];
+            if (one_handed == true){
+                one_handed = false;
+                two_handed_hidden_element.value = "0";
+            } else {
+                one_handed = true;
+                two_handed_hidden_element.value = "1";
+            }
+        }
+        function check_required_fields(){
+            var form_is_valid = true;
+            var classic_name_text_input_element = document.getElementsByClassName(
+                "classic_name_text_input")[0];
+            var classic_name_text_input_value = classic_name_text_input_element.value;
+            var classic_name_error_div = document.getElementsByClassName(
+                "classic_name_error_span")[0];
+            console.log(classic_name_text_input_value);
+            if(classic_name_text_input_value.length < 4){
+                console.log("Error");
+                classic_name_error_div.innerHTML = "This needs to be > 4.";
+                form_is_valid = false;
+            }
+            return form_is_valid;
+        }
+        </script>
     </body>
 </html>

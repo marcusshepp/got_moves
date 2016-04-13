@@ -12,7 +12,8 @@
 <a href="/logout/">logout</a>
 <div class="">Create a New Move</div>
 {% if owner_viewing %}
-    <form class="" action="" method="POST">
+    <form class="" action="{% url 'cardist_creating' username=user.username %}" \
+        method="POST" onsubmit="return classic_form_submit()">
         {% csrf_token %}
         <div class="">
             <label for="name">Name: </label>
@@ -29,6 +30,20 @@
         <div class="">
             <label for="private">Should we make this private: </label>
             <input type="checkbox" name="private" value="1" />
+        </div>
+        <div class="">
+            <label for="category">Category: </label>
+            <select class="" name="" onchange="choose_number_of_hands()">
+                <option value="two_handed">Two Handed</option>
+                <option value="one_handed">One Handed</option>
+            </select>
+            <select class="categories_select" name="category_name">
+                {% for category_name in category_names %}
+                <option value="{{ category_name }}">{{ category_name }}</option>
+                {% endfor %}
+            </select>
+            <input class="number_of_hands_hidden" type="hidden" \
+                name="one_handed" value="">
         </div>
         <input type="submit" value="Submit" />
     </form>

@@ -9,6 +9,7 @@ from main.views import (
     cardist_render_template,
     delete,
     create_profile_render_template,
+    post_create_move_renders_profile,
 )
 from moves.views import (
     search_classics_render_template,
@@ -25,9 +26,11 @@ from accounts.views import (
 
 urlpatterns = patterns("",
     url(r'^foo/', admin.site.urls),
+    # main
     url(r'^$', feed, name="feed"),
     url(r'^create_profile/$', create_profile_render_template, name="create_profile_template"),
     url(r'^cardist/(?:(?P<username>\w+)/)$', cardist_render_template, name="cardist"),
+    url(r'^cardist/(?:(?P<username>\w+)/)creating/$', post_create_move_renders_profile, name="cardist_creating"),
     url(r'^delete/(?P<id>[0-9]+)/$', delete, name="delete"),
 
     # moves

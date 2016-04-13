@@ -20,6 +20,7 @@ class MoveForm(forms.ModelForm):
             "user",
             "tutorial",
             "private",
+            "category",
         )
 
 
