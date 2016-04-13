@@ -46,7 +46,14 @@ class Registeration(View):
         context = dict()
         if form.is_valid:
             form.save()
-            return redirect(reverse_lazy("feed"))
+            user = authenticate(
+                username=request.POST.get('username', None),
+                password=request.POST.get('password', None))
+            if user is not None:
+                if user.is_active:
+                    login(request, user)
+                    user.is_authenticated = True
+                    return redirect(reverse_lazy("create_profile_template"))
         else:
             context["invalid"] = True
             return render(request, "accounts/login.html", context)

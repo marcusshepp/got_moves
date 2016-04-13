@@ -1,18 +1,33 @@
 {% extends 'base.html' %}
 {% block body %}
+<div class="page_header">
+    Foo Bar POP
+</div>
 <form class="create_profile_form" action="" method="POST">
-    <label for="first_name">First Name:</label>
-    <input type="text" name="first_name">
-    <label for="last_name">Last Name:</label>
-    <input type="text" name="last_name">
-    <label for="email">Email:</label>
-    <input type="text" name="email">
-    <label for="description">Description:</label>
-    <input type="text" name="description">
-    <label for="inspiration">Inspiration:</label>
-    <input type="text" name="inspiration">
-    <label for="url">URL:</label>
-    <input type="text" name="url">
+    <div class="create_profile_field">
+        <label class="create_profile_label" for="first_name">First Name:</label>
+        <input class="form_text_field create_profile_input" type="text" name="first_name">
+    </div>
+    <div class="create_profile_field">
+        <label class="create_profile_label" for="last_name">Last Name:</label>
+        <input class="form_text_field create_profile_input" type="text" name="last_name">
+    </div>
+    <div class="create_profile_field">
+        <label class="create_profile_label" for="email">Email:</label>
+        <input class="form_text_field create_profile_input" type="text" name="email">
+    </div>
+    <div class="create_profile_field">
+        <label class="create_profile_label" for="description">Description:</label>
+        <input class="form_text_field create_profile_input" type="text" name="description">
+    </div>
+    <div class="create_profile_field">
+        <label class="create_profile_label" for="inspiration">Inspiration:</label>
+        <input class="form_text_field create_profile_input" type="text" name="inspiration">
+    </div>
+    <div class="create_profile_field">
+        <label class="create_profile_label" for="url">URL:</label>
+        <input class="form_text_field create_profile_input" type="text" name="url">
+    </div>
     <input type="submit" value="Submit">
 </form>
 {% endblock body %}

@@ -1,45 +1,45 @@
 {% extends 'base.html' %}
 {% block body %}
-<form class="" action="{% url 'post_classic_move' %}" method="POST"\
-    onsubmit="return classic_form_submit()" enctype="multipart/form-data">
+<form class="classic_form_element" action="{% url 'post_classic_move' %}" \
+    method="POST" onsubmit="return classic_form_submit()" enctype="multipart/form-data">
     {% csrf_token %}
-    <div class="">
-        <label for="name">Name: </label>
+    <div class="classic_form_field">
+        <label class="classic_form_label" for="name">Name: </label>
         <span class="classic_name_error_span"></span>
-        <input class="classic_name_text_input" type="text" name="name" \
+        <input class="form_text_field classic_form_input classic_name_text_input" type="text" name="name" \
             placeholder="Name">
     </div>
-    <div class="">
-        <label for="youtube_link">YouTube Link: </label>
-        <input class="youtube_link_text_input" type="text" name="youtube_link" \
+    <div class="classic_form_field">
+        <label class="classic_form_label" for="youtube_link">YouTube Link: </label>
+        <input class="form_text_field classic_form_input youtube_link_text_input" type="text" name="youtube_link" \
             placeholder="Copy/Paste a YouTube link">
     </div>
-    <div class="">
-        <label for="description">Description: </label>
-        <input class="" type="text" name="description" \
+    <div class="classic_form_field">
+        <label class="classic_form_label" for="description">Description: </label>
+        <input class="form_text_field classic_form_input " type="text" name="description" \
             placeholder="Short sentence describing the Move.">
     </div>
-    <div class="">
-        <label for="placeholder_image">Placeholder Image: </label>
+    <div class="classic_form_field">
+        <label class="classic_form_label" for="placeholder_image">Placeholder Image: </label>
         <input id="id_placeholder_image" name="placeholder_image" type="file" />
     </div>
-    <div class="">
-        <label for="credits">Credits: </label>
-        <input class="" type="text" name="credits" \
+    <div class="classic_form_field">
+        <label class="classic_form_label" for="credits">Credits: </label>
+        <input class="form_text_field classic_form_input " type="text" name="credits" \
             placeholder="Who inspired this move?">
     </div>
-    <div class="">
-        <label for="estimated_creation_date">Estimated Creation Date: </label>
-        <input class="" type="date" name="estimated_creation_date" \
+    <div class="classic_form_field">
+        <label class="classic_form_label" for="estimated_creation_date">Estimated Creation Date: </label>
+        <input class="classic_form_input " type="date" name="estimated_creation_date" \
             placeholder="estimated_creation_date">
     </div>
-    <div class="">
-        <label for="category">Category: </label>
-        <select class="" name="" onchange="choose_number_of_hands()">
+    <div class="classic_form_field">
+        <label class="classic_form_label" for="category">Category: </label>
+        <select class="classic_form_select" name="" onchange="choose_number_of_hands()">
             <option value="two_handed">Two Handed</option>
             <option value="one_handed">One Handed</option>
         </select>
-        <select class="categories_select" name="category_name">
+        <select class="classic_form_select categories_select" name="category_name">
             {% for category_name in category_names %}
             <option value="{{ category_name }}">{{ category_name }}</option>
             {% endfor %}
@@ -47,7 +47,7 @@
         <input class="number_of_hands_hidden" type="hidden" \
             name="one_handed" value="">
     </div>
-    <input type="submit" value="Submit">
+    <input type="submit" value="Submit" class="form_submit_btn classic_form_submit_btn">
 </form>
 <script type="text/javascript">
 

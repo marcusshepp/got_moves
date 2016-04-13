@@ -1,0 +1,96 @@
+/*
+This Stylesheet contains common rules for all
+screen sizes.
+*/
+:root{
+    --form-bg-color: #D6D6D6;
+    --one-em: 1em 1em 1em 1em;
+    --half-em: 0.5em 0.5em 0.5em 0.5em;
+}
+body{
+    background-image: url("../images/subtlepattern.png");
+}
+.global_container{
+    margin-left: 3%;
+    margin-right: 3%;
+}
+/* GLOBAL FORM ELEMENTS */
+.form_text_field{
+    height: 2.5em;
+    border-radius: var(--half-em);
+}
+/* CLASSIC FORM */
+.classic_form_element{
+    display: block;
+    margin-left: 25%;
+    margin-top: 2em;
+    background-color: var(--form-bg-color);
+    width: 45%;
+    padding: 1em 1em 1em 1em;
+    border-radius: var(--one-em);
+}
+.classic_form_field{
+    margin-bottom: 1em;
+}
+.classic_form_label{
+    display: block;
+    width: 50%;
+    height: auto;
+}
+.classic_form_input{
+    display: block;
+    width: 100%;
+}
+.classic_form_select{
+    display: inline-block;
+    margin: 0;
+    padding: 0;
+    width: 49%;
+    font-size: 200%;
+}
+.classic_form_submit_btn{
+    margin-left: 85%;
+    font-size: 200%;
+}
+/* CLASSIC SEARCH */
+.classic_search_form_element{
+    background-color: var(--form-bg-color);
+    margin-top: 8em;
+    padding-left: 15%;
+    padding-top: 2em;
+    padding-bottom: 1em;
+    border-radius: var(--one-em);
+}
+.classic_search_field{
+
+}
+.classic_search_label{
+    
+}
+.classic_search_text_input{
+    display: block;
+    width: 80%;
+    margin-bottom: 1em;
+}
+.classic_search_submit_btn{
+    margin-left: 71%;
+    width: 10%;
+    height: 52px;
+}
+/* CREATE PROFILE */
+.create_profile_form{
+    display: block;
+    margin-left: 15%;
+    margin-top: 5%;
+}
+.create_profile_field{
+    display: block;
+    margin-bottom: 1em;
+}
+.create_profile_label{
+    display: block;
+    width: 50%;
+}
+.create_profile_input{
+    width: 80%;
+}

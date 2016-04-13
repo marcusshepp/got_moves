@@ -7,4 +7,4 @@ from main.models import Move
 
 class Classic(Move):
     class Meta:
-        ordering = ("-name",)
+        ordering = ("name",)

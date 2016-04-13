@@ -3,17 +3,23 @@
     <head>
         <meta charset="utf-8">
         <title>Got Moves?</title>
+        {% load static %}
+        <link rel="stylesheet" href="{% static 'css/common.css' %}" media="screen" title="no title" charset="utf-8">
     </head>
     <body>
-        {% block nav %}
-        <div class="">
-            <a href="{% url 'classic_form' %}">Add Classic</a>
-            <a href="{% url 'search_moves' %}">Search Classics</a>
-            <a href="{% url 'feed' %}">Feed</a>
+        <div class="global_container">
+            <!-- NAV -->
+            {% block nav %}
+                <div class="">
+                    <a href="{% url 'classic_form' %}">Add Classic</a>
+                    <a href="{% url 'search_moves' %}">Search Classics</a>
+                    <a href="{% url 'feed' %}">Feed</a>
+                </div>
+            {% endblock nav %}
+            <!-- BODY -->
+            {% block body %}
+            {% endblock body %}
         </div>
-        {% endblock nav %}
-        {% block body %}
-        {% endblock body %}
         <script type="text/javascript">
         function classic_form_submit(){
             youtube_link_video_id();
