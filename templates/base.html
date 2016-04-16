@@ -5,6 +5,8 @@
         <title>Got Moves?</title>
         {% load static %}
         <link rel="stylesheet" href="{% static 'css/common.css' %}" media="screen" title="no title" charset="utf-8">
+        <link rel="stylesheet" href="{% static 'css/nav.css' %}" media="screen" title="no title" charset="utf-8">
+
     </head>
     <body>
         <div class="global_container">
@@ -14,6 +16,7 @@
                     <a href="{% url 'classic_form' %}">Add Classic</a>
                     <a href="{% url 'search_moves' %}">Search Classics</a>
                     <a href="{% url 'feed' %}">Feed</a>
+                    <div><a class="nav_username" href="{% url 'cardist' user.username %}">Cardist: {{ user.username }}</a></div>
                 </div>
             {% endblock nav %}
             <!-- BODY -->

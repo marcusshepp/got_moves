@@ -3,7 +3,9 @@ This Stylesheet contains common rules for all
 screen sizes.
 */
 :root{
+    /* colors */
     --form-bg-color: #D6D6D6;
+    /* sizes */
     --one-em: 1em 1em 1em 1em;
     --half-em: 0.5em 0.5em 0.5em 0.5em;
 }
@@ -14,10 +16,38 @@ body{
     margin-left: 3%;
     margin-right: 3%;
 }
+.block{
+    display: block;
+}
+.inline_block{
+    display: inline-block;
+}
 /* GLOBAL FORM ELEMENTS */
-.form_text_field{
-    height: 2.5em;
+.form_element{
+    display: block;
+    padding: var(--one-em);
+}
+.form_header{
+    padding: var(--one-em);
+    text-align: center;
+    background-color: #698b9b;
+    color: white;
+    margin-bottom: 0.5em;
+}
+.form_field{
+    display: block;
+    margin: 0.5em 0em 0.5em 0em;
+}
+.form_label{
+}
+.form_text_input{
+    display: block;
+    height: 2.0em;
     border-radius: var(--half-em);
+    width: 100%;
+}
+.form_submit_btn{
+
 }
 /* CLASSIC FORM */
 .classic_form_element{
@@ -56,16 +86,18 @@ body{
 .classic_search_form_element{
     background-color: var(--form-bg-color);
     margin-top: 8em;
+    margin-left: 8%;
     padding-left: 15%;
     padding-top: 2em;
     padding-bottom: 1em;
     border-radius: var(--one-em);
+    width: 65%;
 }
 .classic_search_field{
 
 }
 .classic_search_label{
-    
+
 }
 .classic_search_text_input{
     display: block;
@@ -93,4 +125,9 @@ body{
 }
 .create_profile_input{
     width: 80%;
+}
+/* PROFILE PAGE */
+.cardist_create_move_form_element{
+    background-color: var(--form-bg-color);
+    width: 25%;
 }

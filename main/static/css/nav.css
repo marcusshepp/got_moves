@@ -1,0 +1,12 @@
+.nav_username{
+    position: absolute;
+    top: 0em;
+    right: 0em;
+    background-color: #76B6CC;
+    padding: 1em;
+    border-radius: 0.5em;
+    cursor: pointer;
+    text-decoration: none;
+    color: white;
+    font-size: 120%;
+}

@@ -24,7 +24,7 @@ from accounts.views import (
     Registeration,
 )
 
-urlpatterns = patterns("",
+urlpatterns = [
     url(r'^foo/', admin.site.urls),
     # main
     url(r'^$', feed, name="feed"),
@@ -48,4 +48,4 @@ urlpatterns = patterns("",
     url(r'^login/$', Login.as_view(), name="login"),
     url(r'^logout/$', logout_then_login, name="logout"),
     url(r'^register/$', Registeration.as_view(), name="register"),
-) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

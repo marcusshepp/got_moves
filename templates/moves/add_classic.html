@@ -2,21 +2,22 @@
 {% block body %}
 <form class="classic_form_element" action="{% url 'post_classic_move' %}" \
     method="POST" onsubmit="return classic_form_submit()" enctype="multipart/form-data">
+    <div class="form_header">Create a New Classic Move</div>
     {% csrf_token %}
     <div class="classic_form_field">
         <label class="classic_form_label" for="name">Name: </label>
         <span class="classic_name_error_span"></span>
-        <input class="form_text_field classic_form_input classic_name_text_input" type="text" name="name" \
+        <input class="form_text_input classic_form_input classic_name_text_input" type="text" name="name" \
             placeholder="Name">
     </div>
     <div class="classic_form_field">
         <label class="classic_form_label" for="youtube_link">YouTube Link: </label>
-        <input class="form_text_field classic_form_input youtube_link_text_input" type="text" name="youtube_link" \
+        <input class="form_text_input classic_form_input youtube_link_text_input" type="text" name="youtube_link" \
             placeholder="Copy/Paste a YouTube link">
     </div>
     <div class="classic_form_field">
         <label class="classic_form_label" for="description">Description: </label>
-        <input class="form_text_field classic_form_input " type="text" name="description" \
+        <input class="form_text_input classic_form_input " type="text" name="description" \
             placeholder="Short sentence describing the Move.">
     </div>
     <div class="classic_form_field">
@@ -25,7 +26,7 @@
     </div>
     <div class="classic_form_field">
         <label class="classic_form_label" for="credits">Credits: </label>
-        <input class="form_text_field classic_form_input " type="text" name="credits" \
+        <input class="form_text_input classic_form_input " type="text" name="credits" \
             placeholder="Who inspired this move?">
     </div>
     <div class="classic_form_field">

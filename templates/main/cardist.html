@@ -10,29 +10,31 @@
     {% endif %}
 </div>
 <a href="/logout/">logout</a>
-<div class="">Create a New Move</div>
+
 {% if owner_viewing %}
-    <form class="" action="{% url 'cardist_creating' username=user.username %}" \
+    <form class="form_element cardist_create_move_form_element" \
+        action="{% url 'cardist_creating' username=user.username %}" \
         method="POST" onsubmit="return classic_form_submit()">
+        <div class="form_header">Create a New Move</div>
         {% csrf_token %}
-        <div class="">
-            <label for="name">Name: </label>
-            <input type="text" name="name" value="" />
+        <div class="form_field">
+            <label class="form_label" for="name">Name: </label>
+            <input class="form_text_input" type="text" name="name" value="" />
         </div>
-        <div class="">
-            <label for="youtube_link">YouTube Link: </label>
-            <input type="text" name="youtube_link" value="" />
+        <div class="form_field">
+            <label class="form_label" for="youtube_link">YouTube Link: </label>
+            <input class="form_text_input" type="text" name="youtube_link" value="" />
         </div>
-        <div class="">
-            <label for="tutorial">This is a tutorial: </label>
-            <input type="checkbox" name="tutorial" value="1" />
+        <div class="block ">
+            <label class="inline_block form_label" for="tutorial">This is a tutorial: </label>
+            <input class="inline_block" type="checkbox" name="tutorial" value="1" />
         </div>
-        <div class="">
-            <label for="private">Should we make this private: </label>
-            <input type="checkbox" name="private" value="1" />
+        <div class="block">
+            <label class="inline_block" for="private">Should we make this private: </label>
+            <input class="inline_block" type="checkbox" name="private" value="1" />
         </div>
-        <div class="">
-            <label for="category">Category: </label>
+        <div class="form_field">
+            <label class="form_label" for="category">Category: </label>
             <select class="" name="" onchange="choose_number_of_hands()">
                 <option value="two_handed">Two Handed</option>
                 <option value="one_handed">One Handed</option>
