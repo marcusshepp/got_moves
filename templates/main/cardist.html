@@ -1,6 +1,5 @@
 {% extends 'base.html' %}
 {% block body %}
-<a href="{% url 'feed' %}">Back to feed.</a>
 <div>
     Hello, <a href="{% url 'cardist' username=user.username %}">{{ user.username }}</a>.
     {% if owner_viewing %}
@@ -14,7 +13,7 @@
 {% if owner_viewing %}
     <form class="form_element cardist_create_move_form_element" \
         action="{% url 'cardist_creating' username=user.username %}" \
-        method="POST" onsubmit="return classic_form_submit()">
+        method="POST" onsubmit="return video_form_submit()">
         <div class="form_header">Create a New Move</div>
         {% csrf_token %}
         <div class="form_field">
@@ -23,7 +22,7 @@
         </div>
         <div class="form_field">
             <label class="form_label" for="youtube_link">YouTube Link: </label>
-            <input class="form_text_input" type="text" name="youtube_link" value="" />
+            <input class="form_text_input youtube_link_text_input" type="text" name="youtube_link" value="" />
         </div>
         <div class="block ">
             <label class="inline_block form_label" for="tutorial">This is a tutorial: </label>
@@ -51,24 +50,35 @@
     </form>
 {% else %}
 {% endif %}
-{% if moves.count %}
-    {% for move in moves %}
-        <div>{{ move.name }}</div>
-        <div class=""><a href="/delete/{{move.id}}">Delete</a></div>
-        {% if move.tutorial %}
-        <div class="">Tutorial</div>
-        {% endif %}
-        <div class="">
-        {% if move.private %}
-        private
-        {% else %}
-        public
-        {% endif %}
-        </div>
-        <iframe width="215" height="215" src="https://www.youtube.com/embed/{{ move.youtube_link }}" frameborder="0" allowfullscreen></iframe>
-        <br>
-    {% endfor %}
-{% else %}
-<div class="">You have no Moves!</div>
-{% endif %}
+<div class="video_feed_container inline">
+    {% if no_moves %}
+        <div class="no_object_message">No Moves have been created.</div>
+    {% else %}
+            {% for move in moves %}
+            <div class="individual_video_container cardist_video_container">
+                <div class="individual_video_header_container">
+                    <div class="individual_video_name">{{ move.name }}</div>
+                    <div class="individual_video_user">
+                        By: <a href="{% url 'cardist' user.username %}"></a>{{ move.user.username }}
+                    </div>
+                    <div class="individual_video_category">{{ move.category_display }}</div>
+                    
+                    <div class="individual_video_voting_container">
+                        <span class="fa fa-caret-up fa-2x"></span>
+                        <span class="fa fa-caret-down fa-2x"></span>
+                    </div>
+                </div>
+                {% if move.tutorial %}
+                    <div class="individual_video_tutorial">Tutorial: {{ move.price_display }}</div>
+                    <div class="individual_video_for_sale"></div>
+                {% endif %}
+                <iframe width="315" height="215" \
+                    src="https://www.youtube.com/embed/{{ move.youtube_link }}" \
+                    frameborder="0" allowfullscreen></iframe>
+                <div class="individual_video_description">{{ move.description_display }}</div>
+                <div class="">{{ move.date_display }}</div>
+            </div>
+            {% endfor %}
+    {% endif %}
+</div>
 {% endblock body %}

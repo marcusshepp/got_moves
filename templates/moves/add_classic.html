@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% block body %}
 <form class="classic_form_element" action="{% url 'post_classic_move' %}" \
-    method="POST" onsubmit="return classic_form_submit()" enctype="multipart/form-data">
+    method="POST" onsubmit="return video_form_submit()" enctype="multipart/form-data">
     <div class="form_header">Create a New Classic Move</div>
     {% csrf_token %}
     <div class="classic_form_field">

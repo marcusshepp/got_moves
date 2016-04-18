@@ -136,8 +136,8 @@ def delete(request, *args, **kwargs):
     move_id = kwargs["id"]
     Move.objects.get(id=move_id).delete()
     data["moves"] = Move.objects.all()
-    return redirect("/")
-
+    return redirect(reverse("cardist", args=[request.user.username]))
+    
 @login_required(login_url=LRU)
 @require_http_methods(["GET"])
 def create_profile_render_template(request):

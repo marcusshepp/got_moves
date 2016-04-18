@@ -11,6 +11,7 @@ screen sizes.
 }
 body{
     background-image: url("../images/subtlepattern.png");
+    font-family: 'Andada', serif;
 }
 .global_container{
     margin-left: 3%;
@@ -47,7 +48,6 @@ body{
     width: 100%;
 }
 .form_submit_btn{
-
 }
 /* CLASSIC FORM */
 .classic_form_element{
@@ -94,10 +94,8 @@ body{
     width: 65%;
 }
 .classic_search_field{
-
 }
 .classic_search_label{
-
 }
 .classic_search_text_input{
     display: block;
@@ -130,4 +128,64 @@ body{
 .cardist_create_move_form_element{
     background-color: var(--form-bg-color);
     width: 25%;
+}
+/* FEED */
+.feed_container{
+    margin-top: 3em;
+}
+.video_feed_container{
+    display: inline-block;
+    width: 49%;
+}
+.feed_filter_container{
+    display: inline-block;
+    width: 49%;
+    vertical-align: top;
+}
+/* INDIVIDUAL VIDEO */
+.individual_video_container{
+    margin-bottom: 1em;
+    background-color: #6E6E6E;
+    padding: 1em;
+    border-radius: 1em;
+    width: 57%;
+}
+.cardist_video_container{
+    display: inline-block;
+}
+.individual_video_header_container{
+    font-size: 110%;
+    display: block;
+    padding: 0.5em;
+    border-radius: 1em;
+    background-color: #A4A4A4;
+    margin-bottom: 1em;
+}
+.individual_video_name{
+    display: inline-block;
+    padding-bottom: 1em;
+}
+.individual_video_user{
+    display: inline-block;
+}
+.individual_video_rating{
+    display: inline-block;
+}
+.individual_video_voting_container{
+    display: inline-block;
+    margin-left: 65%;
+}
+.individual_video_voting_container > span{
+    display: inline-block;
+    color: white;
+    padding: 0;
+}
+.individual_video_voting_container > span:hover{
+    display: inline-block;
+    color: blue;
+    cursor: pointer;
+}
+.individual_video_tutorial{
+}
+.individual_video_description{
 }

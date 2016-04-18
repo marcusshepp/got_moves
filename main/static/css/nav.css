@@ -10,3 +10,6 @@
     color: white;
     font-size: 120%;
 }
+.nav_username:hover{
+    background-color: #76A8CC;
+}

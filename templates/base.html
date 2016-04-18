@@ -4,9 +4,16 @@
         <meta charset="utf-8">
         <title>Got Moves?</title>
         {% load static %}
-        <link rel="stylesheet" href="{% static 'css/common.css' %}" media="screen" title="no title" charset="utf-8">
-        <link rel="stylesheet" href="{% static 'css/nav.css' %}" media="screen" title="no title" charset="utf-8">
-
+        <!-- THRID PARTY -->
+        <link rel="stylesheet" \
+            href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
+        <link rel="stylesheet" type="text/css" \
+            href="https://fonts.googleapis.com/css?family=Andada">
+        <!-- CUSTOM -->
+        <link rel="stylesheet" \
+            href="{% static 'css/common.css' %}" media="screen" title="no title" charset="utf-8">
+        <link rel="stylesheet" \
+            href="{% static 'css/nav.css' %}" media="screen" title="no title" charset="utf-8">
     </head>
     <body>
         <div class="global_container">
@@ -24,7 +31,7 @@
             {% endblock body %}
         </div>
         <script type="text/javascript">
-        function classic_form_submit(){
+        function video_form_submit(){
             youtube_link_video_id();
             choose_number_of_hands();
             return check_required_fields();
@@ -64,9 +71,7 @@
             var classic_name_text_input_value = classic_name_text_input_element.value;
             var classic_name_error_div = document.getElementsByClassName(
                 "classic_name_error_span")[0];
-            console.log(classic_name_text_input_value);
             if(classic_name_text_input_value.length < 4){
-                console.log("Error");
                 classic_name_error_div.innerHTML = "This needs to be > 4.";
                 form_is_valid = false;
             }

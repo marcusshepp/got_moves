@@ -1,19 +1,38 @@
 {% extends 'base.html' %}
 {% block body %}
-feed
-<div class="">
-    Hello, <a href="{% url 'cardist' user.username %}">{{ user.username }}</a>.
-    <a href="/logout/">logout</a>
-</div>
-{% if no_moves %}
-    <div class="">No Moves have been created.</div>
-{% else %}
-    {% for move in moves %}
-        <div class="">{{move.name}}</div>
-        {% if move.tutorial %}
-            <div class="">Tutorial</div>
+<div class="feed_container block">
+    <div class="video_feed_container">
+        {% if no_moves %}
+            <div class="no_object_message">No Moves have been created.</div>
+        {% else %}
+                {% for move in moves %}
+                <div class="individual_video_container">
+                    <div class="individual_video_header_container">
+                        <div class="individual_video_name">{{ move.name }}</div>
+                        <div class="individual_video_user">By: {{ move.user.username }}</div>
+                        <div class="individual_video_category">{{ move.category_display }}</div>
+                        <div class="individual_video_rating">Rating: {{ move.votes_display }}</div>
+                        <div class="individual_video_voting_container">
+                            <span class="fa fa-caret-up fa-2x"></span>
+                            <span class="fa fa-caret-down fa-2x"></span>
+                        </div>
+                    </div>
+                    {% if move.tutorial %}
+                        <div class="individual_video_tutorial">Tutorial: {{ move.price_display }}</div>
+                        <div class="individual_video_for_sale"></div>
+                    {% endif %}
+                    <iframe width="315" height="215" \
+                        src="https://www.youtube.com/embed/{{ move.youtube_link }}" \
+                        frameborder="0" allowfullscreen></iframe>
+                    <div class="individual_video_description">{{ move.description_display }}</div>
+                    <div class="">{{ move.date_display }}</div>
+                </div>
+                {% endfor %}
         {% endif %}
-        <iframe width="215" height="215" src="https://www.youtube.com/embed/{{ move.youtube_link }}" frameborder="0" allowfullscreen></iframe>
-    {% endfor %}
-{% endif %}
+    </div>
+    <div class="feed_filter_container">
+        <input type="search" name="name" value="" class="form_text_input">
+    </div>
+</div>
+
 {% endblock body %}

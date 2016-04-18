@@ -33,13 +33,28 @@ class Video(HasAUser, SaveDateCreated):
     private = models.BooleanField(default=False)
     youtube_link = models.CharField(
         max_length=1000, blank=True, unique=True)
-    rating = models.IntegerField(
-        null=True, blank=True)
+    upvotes = models.IntegerField(
+        null=True, blank=True, default=0)
+    downvotes = models.IntegerField(
+        null=True, blank=True, default=0)
     comments = models.ManyToManyField("Comment")
     description = models.TextField(null=True, blank=True)
     placeholder_image = models.FileField(upload_to='uploads/placeholders/')
     credits = models.CharField(max_length=400, null=True, blank=True)
+    
+    def votes_display(self):
+        display = ""
+        if self.upvotes is not None and self.downvotes is not None:
+            percentage = self.upvotes / (self.upvotes + self.downvotes)
+            display += "{}".format(percentage)
+        if self.upvotes is not None and self.downvotes == None:
+            display += "100"
+        return "{}".format(display)
 
+    def description_display(self):
+        if self.description is None:
+            return ""
+        else: return self.description
 
 class Move(Video):
     """
@@ -53,10 +68,33 @@ class Move(Video):
     original = models.BooleanField(default=False)
     category = models.ForeignKey("DefaultCategory")
     estimated_creation_date = models.DateField(blank=True, null=True)
+    
     def __unicode__(self):
         return "{}".format(self.name)
-
-
+    
+    def price_display(self):
+        display = ""
+        if self.price is None:
+            display += "Free"
+        else:
+            display = "{}".format(self.price)
+        return display
+        
+    def category_display(self):
+        display = ""
+        if self.category:
+            if self.category.one_handed:
+                display += "One Handed: "
+            else:
+                display += "Two Handed: "
+            display += self.category.name
+        return display
+    
+    def date_display(self):
+        if self.estimated_creation_date is None:
+            return ""
+        else: return self.estimated_creation_date
+    
 class Performance(Video):
     """
     Cardistry Performance Video.
