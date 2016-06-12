@@ -1,6 +1,14 @@
 A webapp that acts as a center ground for all things cardistry.
 
 
+- technical notes
+	- API
+		- django rest framework
+	- frontend
+		- angular
+		- SASS, Grunt, Bower
+
+
 - list of top level features:
 	- Cardist Profile
 		- blog-like posts
@@ -12,16 +20,17 @@ A webapp that acts as a center ground for all things cardistry.
 	- Community Wiki ?? 
 
 
-- possible names:
+- possible names for site:
 	- got moves?
 
 
 - Ideas for how to rank up:
-         - number of comments
-         - number of comment upvotes
-         - number of comments on users videos
-         - consecutive days that user has visited the site
-         - downvotes?
+	- number of comments
+	- number of comment upvotes
+	- number of comments on users videos
+	- consecutive days that user has visited the site
+	- downvotes?
+ 	- number / types of privileges
 
 
 - cardistry battles

@@ -180,3 +180,7 @@ class Profile(HasAUser, SaveDateCreated, Descriptable, Likeable):
 	# profiles if they exist.
 	inspiration = models.TextField()
     url = models.CharField(max_length=500)
+	# not sure how to implement fav classic move
+	# maybe foreign key to classicmove model
+	# maybe just a charfield
+	# favorite_classic_move = models.
