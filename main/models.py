@@ -20,9 +20,29 @@ class SaveDateCreated(models.Model):
     class Meta:
         abstract, ordering = True, ("-id",)
     date_created = models.DateTimeField(auto_now_add=True)
+	date_updated = models.DateTimeField(auto_now=True)
 
 
-class Video(HasAUser, SaveDateCreated):
+class Likeable(models.Model):
+	"""
+	Abstract class that gives childern the capability to be `liked`.
+	"""
+	class Meta:
+		abstract = True
+	upvotes = models.PositiveIntegerField(null=True, blank=True, default=0)
+	downvotes = models.IntegerField(blank=True, null=True, default=0)
+
+
+class Descriptable(models.Model):
+	"""
+	Abstract class that gives childern a text description.
+	"""
+	class Meta:
+		abstract = True
+	description = models.TextField(blank=True, null=True)
+
+
+class Video(HasAUser, Likeable, Descriptable, SaveDateCreated):
     """
     Parent Class of `Move` and `Performance`.
     """
@@ -33,34 +53,15 @@ class Video(HasAUser, SaveDateCreated):
     private = models.BooleanField(default=False)
     youtube_link = models.CharField(
         max_length=1000, blank=True, unique=True)
-    upvotes = models.IntegerField(
-        null=True, blank=True, default=0)
-    downvotes = models.IntegerField(
-        null=True, blank=True, default=0)
     comments = models.ManyToManyField("Comment")
-    description = models.TextField(null=True, blank=True)
     placeholder_image = models.FileField(upload_to='uploads/placeholders/')
     credits = models.CharField(max_length=400, null=True, blank=True)
     
-    def votes_display(self):
-        display = ""
-        if self.upvotes is not None and self.downvotes is not None:
-            percentage = self.upvotes / (self.upvotes + self.downvotes)
-            display += "{}".format(percentage)
-        if self.upvotes is not None and self.downvotes == None:
-            display += "100"
-        return "{}".format(display)
-
-    def description_display(self):
-        if self.description is None:
-            return ""
-        else: return self.description
 
 class Move(Video):
     """
     Video of a single Cardistry Move.
     Moves should be able to have a sellable tutorial.
-    Performance videos should be seperate from moves.
     """
     tutorial = models.BooleanField(default=False)
     for_sale = models.BooleanField(default=False)
@@ -95,6 +96,7 @@ class Move(Video):
             return ""
         else: return self.estimated_creation_date
     
+
 class Performance(Video):
     """
     Cardistry Performance Video.
@@ -111,7 +113,7 @@ DEFAULT_CATEGORY_NAMES = (
     "Spring",
     "Display",
 )
-class DefaultCategory(SaveDateCreated):
+class DefaultCategory(SaveDateCreated, Descriptable):
     """
     Type of move.
     """
@@ -120,20 +122,17 @@ class DefaultCategory(SaveDateCreated):
     number_of_packets = models.PositiveIntegerField(null=True, blank=True)
 
 
-class UserSubmittedCategory(HasAUser, SaveDateCreated):
+class UserSubmittedCategory(HasAUser, DefaultCategory):
     """
     Type of move.
     """
     class Meta:
         ordering = ("-date_created",)
-    name = models.CharField(max_length=50)
-    one_handed = models.BooleanField(default=False)
-    number_of_packets = models.PositiveIntegerField(null=True, blank=True)
 
 
 class Comment(HasAUser, SaveDateCreated):
     """
-    Commnet on a Video, can comment on a comment.
+    Comment on a Video, can comment on a comment.
     """
     class Meta:
         ordering = ("-date_created",)
@@ -155,43 +154,29 @@ RANK_TITLES = (
     "Vice Admiral",
     "Admiral",
 )
-"""
-Admiral - (Theoretical - non-canon.)
-Vice Admiral - (Theoretical - non-canon.)
-Rear Admiral - (Only Flag Rank that appears in series canon.)
-Commander - Equivalent to a Commodore, Commanding Officer of a Battlestar Group.
-Colonel
-Lieutenant Colonel (Jack Fisk "Razor")
-Major
-Captain
-Lieutenant
-Lieutenant Junior Grade
-Ensign
--------
-"Bronze",
-"Silver",
-"Gold",
-"Platinum",
-"Diamond",
-"Master",
-"Challenger",
-"Virt",
-"""
-class Profile(HasAUser, SaveDateCreated):
+class Rank(SaveDateCreated, Descriptable):
+	class Meta:
+		ordering = ("-id",)
+	name = models.CharField(max_length=100)
+
+
+class Privilege(SaveDateCreated):
+	class Meta:
+		pass
+
+
+class Profile(HasAUser, SaveDateCreated, Descriptable, Likeable):
     """
-    Ideas for how to rank up:
-        - number of comments
-        - number of comment upvotes
-        - number of comments on users videos
+   	Cardist's Profile 
     """
     class Meta:
         ordering = ("-first_name",)
     rank = models.CharField(max_length=50)
-    description = models.TextField()
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
     email = models.CharField(max_length=100)
-    inspiration = models.TextField()
+	# I want this to be comma seperated names
+    # that potentially link to other cardist's
+	# profiles if they exist.
+	inspiration = models.TextField()
     url = models.CharField(max_length=500)
-    likes = models.IntegerField(
-        null=True, blank=True)
