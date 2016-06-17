@@ -1,4 +1,4 @@
-A webapp that acts as a center ground for all things cardistry.
+A playground for all things cardistry.
 
 
 - technical notes
