@@ -30,7 +30,6 @@ class Likeable(models.Model):
 	class Meta:
 		abstract = True
 	upvotes = models.PositiveIntegerField(null=True, blank=True, default=0)
-	downvotes = models.IntegerField(blank=True, null=True, default=0)
 
 
 class Descriptable(models.Model):
@@ -42,37 +41,47 @@ class Descriptable(models.Model):
 	description = models.TextField(blank=True, null=True)
 
 
-class Video(HasAUser, Likeable, Descriptable, SaveDateCreated):
+class Named(models.Model):
     """
-    Parent Class of `Move` and `Performance`.
+    Abstract class used to populate children with a name.
     """
     class Meta:
-        abstract, ordering = True, ("-id",)
-    name = models.CharField(
-        max_length=50, blank=False, null=False)
-    private = models.BooleanField(default=False)
-    youtube_link = models.CharField(
-        max_length=1000, blank=True, unique=True)
-    comments = models.ManyToManyField("Comment")
-    placeholder_image = models.FileField(upload_to='uploads/placeholders/')
-    credits = models.CharField(max_length=400, null=True, blank=True)
-    
+        abstract = True
+    name = models.CharField(max_length=250, null=False)
 
-class Move(Video):
+
+class Move(Named, Descriptable, SaveDateCreated)
     """
-    Video of a single Cardistry Move.
-    Moves should be able to have a sellable tutorial.
+    The parent class of ClassicMove and UserMove.
     """
-    tutorial = models.BooleanField(default=False)
-    for_sale = models.BooleanField(default=False)
-    price = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
-    original = models.BooleanField(default=False)
+    class Meta:
+        abstract = True
+    credits = models.CharField(mex_length=400)
     category = models.ForeignKey("DefaultCategory")
     estimated_creation_date = models.DateField(blank=True, null=True)
+    submitted_by = models.ForeignKey(User)
+
+
+class ClassicMove(Move):
+    """
+    This is a Classic Cardistry move that is practiced by many
+    cardists around the world. It is noted as being ground 
+    breaking and having a heavy influence on the art as a whole.
+    """
+    pass
+
+ 
+class UserMove(Move):
+    """
+    User submitted Move. Original Moves will show up on the Cardists
+    profile.
+    """
+    # users can submit moves that were created by other Cardists.
+    original = models.BooleanField(default=False)
     
     def __unicode__(self):
-        return "{}".format(self.name)
-    
+        return "{}".format(self.name)   
+ 
     def price_display(self):
         display = ""
         if self.price is None:
@@ -95,13 +104,45 @@ class Move(Video):
         if self.estimated_creation_date is None:
             return ""
         else: return self.estimated_creation_date
+
+
+class Video(Named, HasAUser, Likeable, Descriptable, SaveDateCreated):
+    """
+    Parent Class of SingleMovePerformance and MultiMovePerformance.
+    ** are djangos m2m fields nullable?   
+    """
+    class Meta:
+        abstract, ordering = True, ("-id",)
+    private = models.BooleanField(default=False)
+    youtube_link = models.CharField(
+        max_length=1000, blank=True, null=True, unique=True)
+    instagram_link = models.CharField(
+        max_length=1000, blank=True, null=True, unique=True)
+    comments = models.ManyToManyField("Comment")
+    placeholder_image = models.FileField(upload_to='uploads/placeholders/',
+        null=True, blank=True)
     
 
-class Performance(Video):
+class ClassicMovePerformance(Video):
     """
-    Cardistry Performance Video.
+    Cardistry Performance Video of a single ClassicMove.
     """
-    solo = models.BooleanField(default=True)
+    move = models.ForeignKey("ClassicMove", null=True)
+   
+ 
+class UserMovePerformance(Video):
+    """
+    Cardistry Performance Video of a single User Defined Move.
+    """
+    move = models.ForeignKey("UserMove", null=True) # should these move fields be null????    
+
+
+class MultiMovePerformance(Video):
+    """
+    Cardistry Video of (multiple) performances of multiple Moves.
+    """
+    user_moves = models.ManyToManyField("UserMove")
+    classic_moves = models.ManyToManyField("ClassicMove")
 
 
 DEFAULT_CATEGORY_NAMES = (
