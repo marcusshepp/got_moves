@@ -154,11 +154,10 @@ DEFAULT_CATEGORY_NAMES = (
     "Spring",
     "Display",
 )
-class DefaultCategory(SaveDateCreated, Descriptable):
+class DefaultCategory(Named, SaveDateCreated, Descriptable):
     """
     Type of move.
     """
-    name = models.CharField(max_length=50)
     one_handed = models.BooleanField(default=False)
     number_of_packets = models.PositiveIntegerField(null=True, blank=True)
 
@@ -171,14 +170,13 @@ class UserSubmittedCategory(HasAUser, DefaultCategory):
         ordering = ("-date_created",)
 
 
-class Comment(HasAUser, SaveDateCreated):
+class Comment(Likeable, HasAUser, SaveDateCreated):
     """
     Comment on a Video, can comment on a comment.
     """
     class Meta:
         ordering = ("-date_created",)
     text = models.TextField()
-    likes = models.IntegerField(null=True, blank=True)
     comments = models.ManyToManyField("self")
 
 
@@ -195,15 +193,13 @@ RANK_TITLES = (
     "Vice Admiral",
     "Admiral",
 )
-class Rank(SaveDateCreated, Descriptable):
+class Rank(Named, SaveDateCreated, Descriptable):
 	class Meta:
 		ordering = ("-id",)
-	name = models.CharField(max_length=100)
 
 
 class Privilege(SaveDateCreated):
-	class Meta:
-		pass
+	pass
 
 
 class Profile(HasAUser, SaveDateCreated, Descriptable, Likeable):
