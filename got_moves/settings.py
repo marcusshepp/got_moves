@@ -40,7 +40,6 @@ INSTALLED_APPS = [
 	'rest_framework',
     'accounts',
     'main',
-    'moves',
 ]
 
 MIDDLEWARE_CLASSES = [

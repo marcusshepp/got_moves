@@ -13,32 +13,32 @@ class HasAUser(models.Model):
     user = models.ForeignKey(User)
 
 
-class SaveDateCreated(models.Model):
+class DateCreatedAndUpdate(models.Model):
     """
     Abstract class used to populate childern with a `date_created` field
     """
     class Meta:
         abstract, ordering = True, ("-id",)
     date_created = models.DateTimeField(auto_now_add=True)
-	date_updated = models.DateTimeField(auto_now=True)
+    date_updated = models.DateTimeField(auto_now=True)
 
 
 class Likeable(models.Model):
-	"""
-	Abstract class that gives childern the capability to be `liked`.
-	"""
-	class Meta:
-		abstract = True
-	upvotes = models.PositiveIntegerField(null=True, blank=True, default=0)
+    """
+    Abstract class that gives childern the capability to be `liked`.
+    """
+    class Meta:
+        abstract = True
+    upvotes = models.PositiveIntegerField(null=True, blank=True, default=0)
 
 
 class Descriptable(models.Model):
-	"""
-	Abstract class that gives childern a text description.
-	"""
-	class Meta:
-		abstract = True
-	description = models.TextField(blank=True, null=True)
+    """
+    Abstract class that gives childern a text description.
+    """
+    class Meta:
+        abstract = True
+    description = models.TextField(blank=True, null=True)
 
 
 class Named(models.Model):
@@ -50,27 +50,39 @@ class Named(models.Model):
     name = models.CharField(max_length=250, null=False)
 
 
-class Move(Named, Descriptable, SaveDateCreated)
+class UniquelyNamed(models.Model):
+    """
+    Abstract class used to populate children with a unique name.
+    """
+    class Meta:
+        abstract = True
+    name = models.CharField(max_length=250, null=False)
+
+    def __str__(self):
+        return "{}".format(self.name)
+
+class Move(Named, Descriptable, DateCreatedAndUpdate):
     """
     The parent class of ClassicMove and UserMove.
     """
     class Meta:
         abstract = True
-    credits = models.CharField(mex_length=400)
+    credits = models.CharField(max_length=400)
     category = models.ForeignKey("DefaultCategory")
     estimated_creation_date = models.DateField(blank=True, null=True)
-    submitted_by = models.ForeignKey(User)
+    # TODO: switch back after adding Users in.
+    # submitted_by = models.ForeignKey(User)
 
 
 class ClassicMove(Move):
     """
     This is a Classic Cardistry move that is practiced by many
-    cardists around the world. It is noted as being ground 
+    cardists around the world. It is noted as being ground
     breaking and having a heavy influence on the art as a whole.
     """
     pass
 
- 
+
 class UserMove(Move):
     """
     User submitted Move. Original Moves will show up on the Cardists
@@ -78,10 +90,10 @@ class UserMove(Move):
     """
     # users can submit moves that were created by other Cardists.
     original = models.BooleanField(default=False)
-    
+
     def __unicode__(self):
-        return "{}".format(self.name)   
- 
+        return "{}".format(self.name)
+
     def price_display(self):
         display = ""
         if self.price is None:
@@ -89,7 +101,7 @@ class UserMove(Move):
         else:
             display = "{}".format(self.price)
         return display
-        
+
     def category_display(self):
         display = ""
         if self.category:
@@ -99,17 +111,16 @@ class UserMove(Move):
                 display += "Two Handed: "
             display += self.category.name
         return display
-    
+
     def date_display(self):
         if self.estimated_creation_date is None:
             return ""
         else: return self.estimated_creation_date
 
 
-class Video(Named, HasAUser, Likeable, Descriptable, SaveDateCreated):
+class Video(Named, HasAUser, Likeable, Descriptable, DateCreatedAndUpdate):
     """
     Parent Class of SingleMovePerformance and MultiMovePerformance.
-    ** are djangos m2m fields nullable?   
     """
     class Meta:
         abstract, ordering = True, ("-id",)
@@ -121,20 +132,20 @@ class Video(Named, HasAUser, Likeable, Descriptable, SaveDateCreated):
     comments = models.ManyToManyField("Comment")
     placeholder_image = models.FileField(upload_to='uploads/placeholders/',
         null=True, blank=True)
-    
+
 
 class ClassicMovePerformance(Video):
     """
     Cardistry Performance Video of a single ClassicMove.
     """
     move = models.ForeignKey("ClassicMove", null=True)
-   
- 
+
+
 class UserMovePerformance(Video):
     """
     Cardistry Performance Video of a single User Defined Move.
     """
-    move = models.ForeignKey("UserMove", null=True) # should these move fields be null????    
+    move = models.ForeignKey("UserMove", null=True) # should these move fields be null????
 
 
 class MultiMovePerformance(Video):
@@ -154,7 +165,7 @@ DEFAULT_CATEGORY_NAMES = (
     "Spring",
     "Display",
 )
-class DefaultCategory(Named, SaveDateCreated, Descriptable):
+class DefaultCategory(UniquelyNamed, DateCreatedAndUpdate, Descriptable):
     """
     Type of move.
     """
@@ -170,7 +181,7 @@ class UserSubmittedCategory(HasAUser, DefaultCategory):
         ordering = ("-date_created",)
 
 
-class Comment(Likeable, HasAUser, SaveDateCreated):
+class Comment(Likeable, HasAUser, DateCreatedAndUpdate):
     """
     Comment on a Video, can comment on a comment.
     """
@@ -181,30 +192,30 @@ class Comment(Likeable, HasAUser, SaveDateCreated):
 
 
 RANK_TITLES = (
-    "Ensign",
-    "Lieutenant Junior Grade",
-    "Lieutenant",
-    "Captain",
-    "Major",
-    "Lieutenant Colonel",
-    "Colonel",
-    "Commander",
-    "Rear Admiral",
-    "Vice Admiral",
-    "Admiral",
+"Ensign",
+"Lieutenant Junior Grade",
+"Lieutenant",
+"Captain",
+"Major",
+"Lieutenant Colonel",
+"Colonel",
+"Commander",
+"Rear Admiral",
+"Vice Admiral",
+"Admiral",
 )
-class Rank(Named, SaveDateCreated, Descriptable):
-	class Meta:
-		ordering = ("-id",)
+class Rank(Named, DateCreatedAndUpdate, Descriptable):
+    class Meta:
+        ordering = ("-id",)
 
 
-class Privilege(SaveDateCreated):
-	pass
+class Privilege(DateCreatedAndUpdate):
+    pass
 
 
-class Profile(HasAUser, SaveDateCreated, Descriptable, Likeable):
+class Profile(HasAUser, DateCreatedAndUpdate, Descriptable, Likeable):
     """
-   	Cardist's Profile 
+    Cardist's Profile
     """
     class Meta:
         ordering = ("-first_name",)
@@ -212,12 +223,12 @@ class Profile(HasAUser, SaveDateCreated, Descriptable, Likeable):
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
     email = models.CharField(max_length=100)
-	# I want this to be comma seperated names
+    # I want this to be comma seperated names
     # that potentially link to other cardist's
-	# profiles if they exist.
-	inspiration = models.TextField()
+    # profiles if they exist.
+    inspiration = models.TextField()
     url = models.CharField(max_length=500)
-	# not sure how to implement fav classic move
-	# maybe foreign key to classicmove model
-	# maybe just a charfield
-	# favorite_classic_move = models.
+    # not sure how to implement fav classic move
+    # maybe foreign key to classicmove model
+    # maybe just a charfield
+    # favorite_classic_move = models.
