@@ -3,21 +3,6 @@ from rest_framework import serializers as s
 from main import models
 
 
-class DefaultCategorySerializer(s.ModelSerializer):
-    class Meta:
-        model = models.MoveCategory
-        fields = (
-            "id",
-            "name",
-			"description",
-			"date_created",
-			"date_updated",
-            "description",
-            "one_handed",
-            "number_of_packets",
-        )
-
-
 class MoveCategorySerializer(s.ModelSerializer):
     class Meta:
         model = models.MoveCategory
@@ -30,7 +15,8 @@ class MoveCategorySerializer(s.ModelSerializer):
             "description",
             "one_handed",
             "number_of_packets",
-            "user",
+            "detail_url",
+            # "user",
         )
 
 

@@ -75,12 +75,30 @@ class MoveCategory(UniquelyNamed, DateCreatedAndUpdate, Descriptable):
     """
     Type of move.
     """
+    class Meta:
+        unique_together = ("name", "one_handed",)
     one_handed = models.BooleanField(default=False)
     number_of_packets = models.PositiveIntegerField(null=True, blank=True)
     user_submitted = models.ForeignKey(User, null=True)
 
+    def __str__(self):
+        display = ""
+        if self.name:
+            if self.one_handed:
+                display += "One Handed: "
+            else:
+                display += "Two Handed: "
+            display += self.name
+        return "{}".format(display)
 
-class Move(Named, Descriptable, DateCreatedAndUpdate):
+    def display(self):
+        return self.__str__()
+
+    def detail_url(self):
+        return "/move_category/{0}".format(self.id)
+
+
+class Move(UniquelyNamed, Descriptable, DateCreatedAndUpdate):
     """
     The parent class of ClassicMove and UserMove.
     """
@@ -91,16 +109,6 @@ class Move(Named, Descriptable, DateCreatedAndUpdate):
     estimated_creation_date = models.DateField(blank=True, null=True)
     # TODO: switch back after adding Users in.
     # submitted_by = models.ForeignKey(User)
-
-    def category_display(self):
-        display = ""
-        if self.category:
-            if self.category.one_handed:
-                display += "One Handed: "
-            else:
-                display += "Two Handed: "
-            display += self.category.name
-        return display
 
     def date_display(self):
         if self.estimated_creation_date is None:
