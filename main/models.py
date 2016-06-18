@@ -61,6 +61,25 @@ class UniquelyNamed(models.Model):
     def __str__(self):
         return "{}".format(self.name)
 
+
+DEFAULT_CATEGORY_NAMES = (
+    "Fan",
+    "Cut",
+    "Spread",
+    "Ariel",
+    "Combination",
+    "Spring",
+    "Display",
+)
+class MoveCategory(UniquelyNamed, DateCreatedAndUpdate, Descriptable):
+    """
+    Type of move.
+    """
+    one_handed = models.BooleanField(default=False)
+    number_of_packets = models.PositiveIntegerField(null=True, blank=True)
+    user_submitted = models.ForeignKey(User, null=True)
+
+
 class Move(Named, Descriptable, DateCreatedAndUpdate):
     """
     The parent class of ClassicMove and UserMove.
@@ -68,10 +87,25 @@ class Move(Named, Descriptable, DateCreatedAndUpdate):
     class Meta:
         abstract = True
     credits = models.CharField(max_length=400)
-    category = models.ForeignKey("DefaultCategory")
+    category = models.ForeignKey("MoveCategory")
     estimated_creation_date = models.DateField(blank=True, null=True)
     # TODO: switch back after adding Users in.
     # submitted_by = models.ForeignKey(User)
+
+    def category_display(self):
+        display = ""
+        if self.category:
+            if self.category.one_handed:
+                display += "One Handed: "
+            else:
+                display += "Two Handed: "
+            display += self.category.name
+        return display
+
+    def date_display(self):
+        if self.estimated_creation_date is None:
+            return ""
+        else: return self.estimated_creation_date
 
 
 class ClassicMove(Move):
@@ -93,29 +127,6 @@ class UserMove(Move):
 
     def __unicode__(self):
         return "{}".format(self.name)
-
-    def price_display(self):
-        display = ""
-        if self.price is None:
-            display += "Free"
-        else:
-            display = "{}".format(self.price)
-        return display
-
-    def category_display(self):
-        display = ""
-        if self.category:
-            if self.category.one_handed:
-                display += "One Handed: "
-            else:
-                display += "Two Handed: "
-            display += self.category.name
-        return display
-
-    def date_display(self):
-        if self.estimated_creation_date is None:
-            return ""
-        else: return self.estimated_creation_date
 
 
 class Video(Named, HasAUser, Likeable, Descriptable, DateCreatedAndUpdate):
@@ -154,31 +165,6 @@ class MultiMovePerformance(Video):
     """
     user_moves = models.ManyToManyField("UserMove")
     classic_moves = models.ManyToManyField("ClassicMove")
-
-
-DEFAULT_CATEGORY_NAMES = (
-    "Fan",
-    "Cut",
-    "Spread",
-    "Ariel",
-    "Combination",
-    "Spring",
-    "Display",
-)
-class DefaultCategory(UniquelyNamed, DateCreatedAndUpdate, Descriptable):
-    """
-    Type of move.
-    """
-    one_handed = models.BooleanField(default=False)
-    number_of_packets = models.PositiveIntegerField(null=True, blank=True)
-
-
-class UserSubmittedCategory(HasAUser, DefaultCategory):
-    """
-    Type of move.
-    """
-    class Meta:
-        ordering = ("-date_created",)
 
 
 class Comment(Likeable, HasAUser, DateCreatedAndUpdate):

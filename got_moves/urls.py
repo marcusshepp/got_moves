@@ -6,12 +6,13 @@ from django.contrib.auth.views import logout_then_login
 
 from rest_framework.routers import DefaultRouter
 
-from main import viewsets
+from main import views
 
 
 router = DefaultRouter()
-router.register("categories", viewsets.DefaultCategoryViewset)
-router.register("classic_moves", viewsets.ClassicMoveViewset)
+router.register("categories", views.MoveCategoryViewset)
+router.register("classic_moves", views.ClassicMoveViewset)
+router.register("classic_move_performances", views.ClassicMovePerformanceViewset)
 
 urlpatterns = [
     url(r'^foo/', admin.site.urls),

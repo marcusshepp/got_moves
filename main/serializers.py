@@ -5,8 +5,9 @@ from main import models
 
 class DefaultCategorySerializer(s.ModelSerializer):
     class Meta:
-        model = models.DefaultCategory
+        model = models.MoveCategory
         fields = (
+            "id",
             "name",
 			"description",
 			"date_created",
@@ -17,10 +18,11 @@ class DefaultCategorySerializer(s.ModelSerializer):
         )
 
 
-class UserSubmittedCategorySerializer(s.ModelSerializer):
+class MoveCategorySerializer(s.ModelSerializer):
     class Meta:
-        model = models.DefaultCategory
+        model = models.MoveCategory
         fields = (
+            "id",
             "name",
 			"description",
 			"date_created",
@@ -36,6 +38,7 @@ class ClassicMoveSerializer(s.ModelSerializer):
 	class Meta:
 		model = models.ClassicMove
 		fields = (
+            "id",
 			"name",
 			"description",
 			"date_created",
@@ -50,4 +53,15 @@ class ClassicMoveSerializer(s.ModelSerializer):
 class ClassicMovePerformanceSerializer(s.ModelSerializer):
 	class Meta:
 		model = models.ClassicMovePerformance
-		fields = ('move',)
+		fields = (
+            'id',
+            'date_created',
+            'date_updated',
+            'upvotes',
+            'description',
+            'name',
+            'private',
+            'youtube_link',
+            'instagram_link',
+            'placeholder_image',
+        )
