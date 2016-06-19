@@ -6,6 +6,7 @@ from django.contrib.auth.views import logout_then_login
 
 from rest_framework.routers import DefaultRouter
 
+from auth_api import urls as auth_api_urls
 from main import views
 
 
@@ -17,5 +18,6 @@ router.register("classic_move_performances", views.ClassicMovePerformanceViewset
 urlpatterns = [
     url(r'^foo/', admin.site.urls),
     url(r'^api/', include(router.urls)),
+    url(r'^api/users/', include(auth_api_urls)),
     url(r'^api/classic_move_search', views.ClassicMoveFilterListView.as_view()),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
