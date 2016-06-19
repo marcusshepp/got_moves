@@ -1,7 +1,34 @@
 from __future__ import unicode_literals
 
+import datetime
+
 from django.db import models
+from django.utils import timezone
 from django.contrib.auth.models import User
+
+
+DEFAULT_CATEGORY_NAMES = (
+    "Fan",
+    "Cut",
+    "Spread",
+    "Ariel",
+    "Combination",
+    "Spring",
+    "Display",
+)
+RANK_TITLES = (
+    "Ensign",
+    "Lieutenant Junior Grade",
+    "Lieutenant",
+    "Captain",
+    "Major",
+    "Lieutenant Colonel",
+    "Colonel",
+    "Commander",
+    "Rear Admiral",
+    "Vice Admiral",
+    "Admiral",
+)
 
 
 class HasAUser(models.Model):
@@ -22,6 +49,14 @@ class DateCreatedAndUpdate(models.Model):
     date_created = models.DateTimeField(auto_now_add=True)
     date_updated = models.DateTimeField(auto_now=True)
 
+    def time_past_since_creation(self):
+        time = (timezone.now()-self.date_created)
+        hours = time.seconds / 60 / 60
+        weeks = time.days / 7
+        return "Weeks: {weeks}, Days: {days}, Hours: {hours}, Seconds: {seconds}".format(
+            days=time.days, seconds=time.seconds, weeks=weeks, hours=hours
+        )
+
 
 class Likeable(models.Model):
     """
@@ -29,7 +64,7 @@ class Likeable(models.Model):
     """
     class Meta:
         abstract = True
-    upvotes = models.PositiveIntegerField(null=True, blank=True, default=0)
+    likes = models.IntegerField(null=True, blank=True, default=0)
 
 
 class Descriptable(models.Model):
@@ -62,21 +97,13 @@ class UniquelyNamed(models.Model):
         return "{}".format(self.name)
 
 
-DEFAULT_CATEGORY_NAMES = (
-    "Fan",
-    "Cut",
-    "Spread",
-    "Ariel",
-    "Combination",
-    "Spring",
-    "Display",
-)
-class MoveCategory(UniquelyNamed, DateCreatedAndUpdate, Descriptable):
+class MoveCategory(UniquelyNamed, DateCreatedAndUpdate, Descriptable, Likeable):
     """
     Type of move.
     """
     class Meta:
         unique_together = ("name", "one_handed",)
+        ordering = ("name",)
     one_handed = models.BooleanField(default=False)
     number_of_packets = models.PositiveIntegerField(null=True, blank=True)
     user_submitted = models.ForeignKey(User, null=True)
@@ -85,9 +112,9 @@ class MoveCategory(UniquelyNamed, DateCreatedAndUpdate, Descriptable):
         display = ""
         if self.name:
             if self.one_handed:
-                display += "One Handed: "
+                display += "One Handed "
             else:
-                display += "Two Handed: "
+                display += "Two Handed "
             display += self.name
         return "{}".format(display)
 
@@ -104,7 +131,7 @@ class Move(UniquelyNamed, Descriptable, DateCreatedAndUpdate):
     """
     class Meta:
         abstract = True
-    credits = models.CharField(max_length=400)
+    credits = models.CharField(max_length=400, null=True)
     category = models.ForeignKey("MoveCategory")
     estimated_creation_date = models.DateField(blank=True, null=True)
     # TODO: switch back after adding Users in.
@@ -114,6 +141,12 @@ class Move(UniquelyNamed, Descriptable, DateCreatedAndUpdate):
         if self.estimated_creation_date is None:
             return ""
         else: return self.estimated_creation_date
+
+    def category_detail_url(self):
+        return self.category.detail_url()
+
+    def category_display(self):
+        return self.category.display()
 
 
 class ClassicMove(Move):
@@ -185,19 +218,6 @@ class Comment(Likeable, HasAUser, DateCreatedAndUpdate):
     comments = models.ManyToManyField("self")
 
 
-RANK_TITLES = (
-"Ensign",
-"Lieutenant Junior Grade",
-"Lieutenant",
-"Captain",
-"Major",
-"Lieutenant Colonel",
-"Colonel",
-"Commander",
-"Rear Admiral",
-"Vice Admiral",
-"Admiral",
-)
 class Rank(Named, DateCreatedAndUpdate, Descriptable):
     class Meta:
         ordering = ("-id",)

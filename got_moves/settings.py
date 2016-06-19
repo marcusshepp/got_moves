@@ -128,3 +128,10 @@ MEDIA_URL = '/media/'
 # accounts
 LOGIN_URL = "/login/"
 LOGIN_REDIRECT_URL = "/login/"
+
+# rest
+# REST_FRAMEWORK = {
+#     'DEFAULT_PARSER_CLASSES': (
+#         'rest_framework.parsers.JSONParser',
+#     )
+# }

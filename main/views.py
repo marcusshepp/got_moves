@@ -31,18 +31,14 @@ class ClassicMoveViewset(viewsets.ModelViewSet):
 class ClassicMoveFilterListView(generics.ListAPIView):
     """
     """
-    queryset = models.ClassicMove.objects.all()
-    serializer = serializers.ClassicMoveSerializer
-    filter_backends = (filters.SearchFilter,)
-    search_fields = (
-        "description",
-        "name",
-        "credits",
-        "estimated_creation_date",
-        "date_created",
-        "date_updated",
-        "id",
-    )
+    serializer_class = serializers.ClassicMoveSerializer
+    def get_queryset(self):
+        queryset = models.ClassicMove.objects.all()
+        name_filterer = self.request.query_params.get("name", None)
+        if name_filterer is not None:
+            queryset = queryset.filter(name__icontains=name_filterer)
+        return queryset[:5]
+
 
 class ClassicMovePerformanceViewset(viewsets.ModelViewSet):
     """

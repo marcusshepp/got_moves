@@ -3,7 +3,7 @@ from rest_framework import serializers as s
 from main import models
 
 
-class MoveCategorySerializer(s.ModelSerializer):
+class MoveCategorySerializer(s.HyperlinkedModelSerializer):
     class Meta:
         model = models.MoveCategory
         fields = (
@@ -16,7 +16,13 @@ class MoveCategorySerializer(s.ModelSerializer):
             "one_handed",
             "number_of_packets",
             "detail_url",
+            "time_past_since_creation",
+            "url",
             # "user",
+        )
+        read_only_fields = (
+            "time_past_since_creation",
+            "detail_url",
         )
 
 
@@ -32,6 +38,9 @@ class ClassicMoveSerializer(s.ModelSerializer):
 			"credits",
 			"category",
 			"estimated_creation_date",
+            "category_detail_url",
+            "category_display",
+            "time_past_since_creation",
 			# "submitted_by",
 		)
 

@@ -16,5 +16,6 @@ router.register("classic_move_performances", views.ClassicMovePerformanceViewset
 
 urlpatterns = [
     url(r'^foo/', admin.site.urls),
-    url(r'^', include(router.urls)),
+    url(r'^api/', include(router.urls)),
+    url(r'^api/classic_move_search', views.ClassicMoveFilterListView.as_view()),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
