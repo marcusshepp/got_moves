@@ -30,6 +30,11 @@ class ClassicMoveViewset(viewsets.ModelViewSet):
 
 class ClassicMoveFilterListView(generics.ListAPIView):
     """
+    Endpoint that allows for searching those classic Moves.
+    by:
+    - name: `/classic_move_search?name=ch`
+    - description: ??
+    - likes: ??
     """
     serializer_class = serializers.ClassicMoveSerializer
     def get_queryset(self):

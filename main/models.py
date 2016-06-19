@@ -97,7 +97,7 @@ class UniquelyNamed(models.Model):
         return "{}".format(self.name)
 
 
-class MoveCategory(UniquelyNamed, DateCreatedAndUpdate, Descriptable, Likeable):
+class MoveCategory(UniquelyNamed, DateCreatedAndUpdate, Descriptable):
     """
     Type of move.
     """
@@ -125,7 +125,7 @@ class MoveCategory(UniquelyNamed, DateCreatedAndUpdate, Descriptable, Likeable):
         return "/move_category/{0}".format(self.id)
 
 
-class Move(UniquelyNamed, Descriptable, DateCreatedAndUpdate):
+class Move(UniquelyNamed, Descriptable, DateCreatedAndUpdate, Likeable):
     """
     The parent class of ClassicMove and UserMove.
     """

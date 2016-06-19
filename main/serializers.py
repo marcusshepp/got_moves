@@ -41,6 +41,7 @@ class ClassicMoveSerializer(s.ModelSerializer):
             "category_detail_url",
             "category_display",
             "time_past_since_creation",
+            "likes",
 			# "submitted_by",
 		)
 

@@ -14,4 +14,9 @@ python manage.py makemigrations $1
 ls $1/migrations
 echo "**migrating**"
 python manage.py migrate
-bash ~/projects/dollars/as/django/bootserver.sh
+for i in "$@" ; do
+	if [[ $i == "boot" ]]; then
+		bash ~/projects/dollars/as/django/bootserver.sh
+		break
+	fi
+done
