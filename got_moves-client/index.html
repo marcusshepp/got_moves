@@ -5,9 +5,13 @@
         <title>moves</title>
     </head>
     <body>
-        <div class="" ng-controller="MovesController as MC">
-            {{ status }}
-            <div class="" ng-repeat="c in categories">{{ c }}</div>
+        <!-- <div class="" ng-controller="cateController">
+            <p ng-repeat="c in categories">{{ c }}</p>
+        </div> -->
+        <div class="" ng-controller="classicMoveController">
+            <select class="" name="">
+                <option ng-repeat="cm in classic_moves">{{ cm.name }}</option>
+            </select>
         </div>
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
         <script type="text/javascript" src="js/app.js"></script>

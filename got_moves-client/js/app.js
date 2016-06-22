@@ -1,28 +1,33 @@
 var app = angular.module('gotMoves', [])
 
-    .factory('categoryService', ["$http", function($http){
-
-        var doRequest = function(){
-            return $http({
-                method: "JSONP",
-                url: "http://127.0.0.1:8000/api/categories/"
-            });
-        }
-        return {
-            categories: function() { return doRequest(); },
-        };
-    }]);
-
-app.controller("MovesController", function($scope, categoryService){
-    $scope.categories;
-
-    getCategories();
-
-    function getCategories(){
-            categoryService.categories()
-                .success(function(cates){
-                    $scope.categories = cates
-                })
+app.factory("CateFactory", [
+    "$http",
+    function ($http){
+        return $http.get("http://127.0.0.1:8000/api/categories/?format=json")
     }
+])
 
-});
+app.controller("cateController", ["$scope", "CateFactory", function($scope, CateFactory){
+    $scope.categories = null;
+    CateFactory.then(function(response){
+        $scope.categories = response;
+    });
+}])
+
+
+app.factory("ClassicMoveFactory", [
+    "$http",
+    function ($http){
+        return $http.get("http://127.0.0.1:8000/api/classic_moves/?format=json")
+    }
+])
+
+app.controller("classicMoveController", [
+    "$scope",
+    "ClassicMoveFactory",
+    function($scope, ClassicMoveFactory){
+        $scope.classic_moves = null;
+        ClassicMoveFactory.then(function(response){
+            $scope.classic_moves = response.data;
+    });
+}])
