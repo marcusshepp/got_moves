@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'corsheaders',
 	'rest_framework',
     'accounts',
     'auth_api',
@@ -52,6 +53,7 @@ MIDDLEWARE_CLASSES = [
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
 ]
 
 ROOT_URLCONF = 'got_moves.urls'
@@ -136,3 +138,5 @@ LOGIN_REDIRECT_URL = "/login/"
 #         'rest_framework.parsers.JSONParser',
 #     )
 # }
+
+CORS_ORIGIN_ALLOW_ALL = True
