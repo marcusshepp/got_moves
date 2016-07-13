@@ -72,4 +72,4 @@ db*
 
 .opt/
 
-media/*
+media/*.opt
