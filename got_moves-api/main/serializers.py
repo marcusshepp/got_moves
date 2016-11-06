@@ -18,6 +18,7 @@ class MoveCategorySerializer(s.HyperlinkedModelSerializer):
             "detail_url",
             "time_past_since_creation",
             "url",
+            "display",
             # "user",
         )
         read_only_fields = (
@@ -53,7 +54,7 @@ class ClassicMovePerformanceSerializer(s.ModelSerializer):
             'id',
             'date_created',
             'date_updated',
-            'upvotes',
+            'likes',
             'description',
             'name',
             'private',
